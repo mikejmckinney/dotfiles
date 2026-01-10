@@ -1,5 +1,5 @@
 # AGENTS.md
-
+ 
 ## Required context (read first)
 1) Always read `./AI_REPO_GUIDE.md` before planning or making changes.
 2) Treat it as the canonical “repo memory” for:
