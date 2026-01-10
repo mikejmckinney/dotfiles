@@ -23,15 +23,15 @@ YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
 log_info() {
-    echo -e "${GREEN}[INFO]${NC} $1"
+    printf "${GREEN}[INFO]${NC} %s\n" "$1"
 }
 
 log_warn() {
-    echo -e "${YELLOW}[WARN]${NC} $1"
+    printf "${YELLOW}[WARN]${NC} %s\n" "$1"
 }
 
 log_error() {
-    echo -e "${RED}[ERROR]${NC} $1"
+    printf "${RED}[ERROR]${NC} %s\n" "$1"
 }
 
 # =============================================================================
@@ -64,6 +64,12 @@ if [[ -z "$WORKSPACE" ]]; then
     else
         WORKSPACE="$PWD"
     fi
+fi
+
+# Validate workspace path is not empty
+if [[ -z "$WORKSPACE" ]]; then
+    log_error "Could not determine workspace path. Please set WORKSPACE environment variable."
+    exit 1
 fi
 
 log_info "Dotfiles path: $DOTFILES"

@@ -86,8 +86,8 @@ bash install.sh
 # Validate shell scripts
 shellcheck install.sh test.sh
 
-# Verify markdown files are valid
-find . -name "*.md" -exec echo "Checking: {}" \;
+# List all markdown files in the repository
+find . -name "*.md" -exec echo "Found: {}" \;
 ```
 
 ## Using This Template

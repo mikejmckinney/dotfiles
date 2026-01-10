@@ -94,7 +94,7 @@ else
 fi
 
 # Check for contentReference artifacts (should not be present)
-if grep -q "contentReference\|oaicite" .github/agents/judge.agent.md 2>/dev/null; then
+if grep -q -E "contentReference|oaicite" .github/agents/judge.agent.md 2>/dev/null; then
     fail "judge.agent.md contains contentReference artifacts (clean these up)"
 else
     pass "judge.agent.md is clean of artifacts"
