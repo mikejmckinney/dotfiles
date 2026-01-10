@@ -97,24 +97,24 @@ Create `.github/copilot-instructions.md` with this structure:
 ## Quick Commands
 
 ### Setup
-\`\`\`bash
-<setup command>
-\`\`\`
+    ```bash
+    <setup command>
+    ```
 
 ### Build
-\`\`\`bash
-<build command>
-\`\`\`
+    ```bash
+    <build command>
+    ```
 
 ### Test
-\`\`\`bash
-<test command>
-\`\`\`
+    ```bash
+    <test command>
+    ```
 
 ### Lint
-\`\`\`bash
-<lint command>
-\`\`\`
+    ```bash
+    <lint command>
+    ```
 
 ## Project Structure
 

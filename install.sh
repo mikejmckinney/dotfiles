@@ -84,7 +84,7 @@ if [[ "$SKIP_EXTENSIONS" == "false" ]]; then
     log_info "Installing VS Code extensions..."
     
     for ext in "${EXTENSIONS[@]}"; do
-        ext_name="${ext%%#*}"  # Remove any inline comments
+        ext_name="$ext"
         if code --install-extension "$ext_name" 2>/dev/null; then
             log_info "  ✓ Installed: $ext_name"
         else
@@ -158,7 +158,7 @@ verify() {
 if [[ "$SKIP_EXTENSIONS" == "false" ]]; then
     # Verify extensions are installed
     for ext in "${EXTENSIONS[@]}"; do
-        ext_name="${ext%%#*}"
+        ext_name="$ext"
         if code --list-extensions 2>/dev/null | grep -qi "$ext_name"; then
             log_info "  ✓ Extension: $ext_name"
             ((VERIFY_PASS++))
@@ -167,6 +167,10 @@ if [[ "$SKIP_EXTENSIONS" == "false" ]]; then
         fi
     done
 fi
+
+# Verify copied files
+verify "$ONBOARD_DST"
+verify "$AGENTS_DST"
 
 # =============================================================================
 # Summary

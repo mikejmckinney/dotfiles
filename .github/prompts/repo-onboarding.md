@@ -183,9 +183,9 @@ Provide:
 - `path/to/file.ext` — <description>
 
 ## Test Commands
-\`\`\`bash
-<commands to verify changes work>
-\`\`\`
+    ```bash
+    <commands to verify changes work>
+    ```
 
 ## Expected Outcome
 <What should happen when tests pass>
