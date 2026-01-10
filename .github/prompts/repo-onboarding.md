@@ -175,7 +175,7 @@ Update `AI_REPO_GUIDE.md` to reflect this.
 
 Provide:
 
-```markdown
+````markdown
 ## Summary
 <What changed and why>
 
@@ -183,9 +183,9 @@ Provide:
 - `path/to/file.ext` — <description>
 
 ## Test Commands
-    ```bash
-    <commands to verify changes work>
-    ```
+```bash
+<commands to verify changes work>
+```
 
 ## Expected Outcome
 <What should happen when tests pass>
@@ -197,7 +197,7 @@ Provide:
 
 ## Follow-ups (optional)
 - <Future improvements>
-```
+````
 
 ---
 
