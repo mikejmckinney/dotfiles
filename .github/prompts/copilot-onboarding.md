@@ -78,7 +78,7 @@ For each command, actually run it and document:
 
 Create `.github/copilot-instructions.md` with this structure:
 
-```markdown
+````markdown
 ## Required Context
 
 - Always read `/AI_REPO_GUIDE.md` first and follow it
@@ -97,24 +97,24 @@ Create `.github/copilot-instructions.md` with this structure:
 ## Quick Commands
 
 ### Setup
-\`\`\`bash
+```bash
 <setup command>
-\`\`\`
+```
 
 ### Build
-\`\`\`bash
+```bash
 <build command>
-\`\`\`
+```
 
 ### Test
-\`\`\`bash
+```bash
 <test command>
-\`\`\`
+```
 
 ### Lint
-\`\`\`bash
+```bash
 <lint command>
-\`\`\`
+```
 
 ## Project Structure
 
@@ -144,7 +144,7 @@ Always verify:
 1. [ ] Tests pass: `<test command>`
 2. [ ] Linting passes: `<lint command>`
 3. [ ] Build succeeds: `<build command>`
-```
+````
 
 ---
 

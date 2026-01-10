@@ -84,7 +84,7 @@ if [[ "$SKIP_EXTENSIONS" == "false" ]]; then
     log_info "Installing VS Code extensions..."
     
     for ext in "${EXTENSIONS[@]}"; do
-        ext_name="${ext%%#*}"  # Remove any inline comments
+        ext_name="$ext"
         if code --install-extension "$ext_name" 2>/dev/null; then
             log_info "  ✓ Installed: $ext_name"
         else
@@ -111,8 +111,10 @@ fi
 # Copy repo-onboarding prompt
 ONBOARD_SRC="$DOTFILES/.github/prompts/repo-onboarding.md"
 ONBOARD_DST="$PROMPTS_DIR/repo-onboarding.md"
+ONBOARD_SRC_EXISTS=false
 
 if [[ -f "$ONBOARD_SRC" ]]; then
+    ONBOARD_SRC_EXISTS=true
     if [[ -f "$ONBOARD_DST" ]]; then
         log_warn "  ⚠ $ONBOARD_DST already exists, skipping"
     else
@@ -126,8 +128,10 @@ fi
 # Copy AGENTS.md to workspace root if not present
 AGENTS_SRC="$DOTFILES/AGENTS.md"
 AGENTS_DST="$WORKSPACE/AGENTS.md"
+AGENTS_SRC_EXISTS=false
 
 if [[ -f "$AGENTS_SRC" ]]; then
+    AGENTS_SRC_EXISTS=true
     if [[ -f "$AGENTS_DST" ]]; then
         log_warn "  ⚠ $AGENTS_DST already exists, skipping"
     else
@@ -148,24 +152,32 @@ VERIFY_FAIL=0
 verify() {
     if [[ -e "$1" ]]; then
         log_info "  ✓ $1"
-        ((VERIFY_PASS++))
+        VERIFY_PASS=$((VERIFY_PASS + 1))
     else
         log_error "  ✗ $1"
-        ((VERIFY_FAIL++))
+        VERIFY_FAIL=$((VERIFY_FAIL + 1))
     fi
 }
 
 if [[ "$SKIP_EXTENSIONS" == "false" ]]; then
     # Verify extensions are installed
     for ext in "${EXTENSIONS[@]}"; do
-        ext_name="${ext%%#*}"
+        ext_name="$ext"
         if code --list-extensions 2>/dev/null | grep -qi "$ext_name"; then
             log_info "  ✓ Extension: $ext_name"
-            ((VERIFY_PASS++))
+            VERIFY_PASS=$((VERIFY_PASS + 1))
         else
             log_warn "  ⚠ Extension may not be installed: $ext_name"
         fi
     done
+fi
+
+# Verify copied files (only if source existed)
+if [[ "$ONBOARD_SRC_EXISTS" == "true" ]]; then
+    verify "$ONBOARD_DST"
+fi
+if [[ "$AGENTS_SRC_EXISTS" == "true" ]]; then
+    verify "$AGENTS_DST"
 fi
 
 # =============================================================================
