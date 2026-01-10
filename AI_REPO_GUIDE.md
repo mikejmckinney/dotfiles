@@ -23,8 +23,8 @@ dotfiles/
 ├── .gemini/
 │   └── styleguide.md               # Gemini Code Assist review guide
 ├── install.sh                      # Codespace startup script
-├── AGENTS.md                       # Agent working rules
-├── AGENT.md                        # Deprecated, kept for compatibility
+├── AGENTS.md                       # Agent working rules (current)
+├── AGENT.md                        # Deprecated (kept for compatibility)
 └── README.md                       # Main documentation
 ```
 
@@ -75,9 +75,10 @@ This is a configuration repository with no build or test steps. Changes can be v
 - All agents should reference AI_REPO_GUIDE.md when it exists
 - Maintain consistency in output formats across agents
 - Agent files use markdown format with YAML frontmatter (for GitHub Copilot)
+- **Note**: AGENT.md is deprecated; use AGENTS.md for agent working rules
 
 ## Common Gotchas
 - `install.sh` uses `$DOTFILES` environment variable (set by GitHub automatically)
 - Extensions install at Codespace startup, not immediately visible in running Codespaces
 - Review agents are configuration files, not executable scripts
-- AGENT.md is deprecated - use AGENTS.md instead
+- Both AGENT.md and AGENTS.md exist, but AGENTS.md is the current/active version

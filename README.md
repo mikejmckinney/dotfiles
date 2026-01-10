@@ -25,8 +25,8 @@ dotfiles/
 │   ├── agents/
 │   │   └── judge.agent.md          # GitHub Copilot review agent
 │   └── prompts/
-│       ├── copilot-onboarding.md   # Copilot setup instructions
-│       └── repo-onboarding.md      # General repo onboarding
+│       ├── copilot-onboarding.md   # Instructions for creating copilot-instructions.md
+│       └── repo-onboarding.md      # General repo onboarding prompt
 ├── .cursor/
 │   └── BUGBOT.md                   # Cursor AI review rules
 ├── .gemini/
@@ -64,10 +64,15 @@ This repository includes three AI code review agents for different platforms:
 
 ## 🤖 AI Onboarding Prompts
 
+### Copilot Onboarding Prompt
+**Location**: `.github/prompts/copilot-onboarding.md`
+
+Instructions for creating a `.github/copilot-instructions.md` file in any repository. This one-time task helps Copilot coding agents understand and work more efficiently with a new codebase.
+
 ### Repo Onboarding Prompt
 **Location**: `.github/prompts/repo-onboarding.md`
 
-A comprehensive prompt that helps AI assistants understand and work with any codebase. It guides the AI to:
+A comprehensive prompt that helps AI assistants (like Claude, Cline, etc.) understand and work with any codebase. It guides the AI to:
 - Build a mental model of the repository before making changes
 - Create/maintain an `AI_REPO_GUIDE.md` for persistent repo memory
 - Make minimal, well-tested changes
