@@ -21,26 +21,56 @@ Personal dotfiles repository for GitHub Codespaces configuration. This repo auto
 
 ```
 dotfiles/
-├── install.sh              # Auto-runs on Codespace start
-├── judge.agent.md          # AI agent for plan/diff review
-├── onboard-repo.prompt.md  # AI prompt for repo onboarding
+├── .github/
+│   ├── agents/
+│   │   └── judge.agent.md          # GitHub Copilot review agent
+│   └── prompts/
+│       ├── copilot-onboarding.md   # Copilot setup instructions
+│       └── repo-onboarding.md      # General repo onboarding
+├── .cursor/
+│   └── BUGBOT.md                   # Cursor AI review rules
+├── .gemini/
+│   └── styleguide.md               # Gemini Code Assist guide
+├── install.sh                      # Auto-runs on Codespace start
+├── AI_REPO_GUIDE.md                # Repository memory/guide
+├── CODE_REVIEW.md                  # How to trigger code reviews
+├── AGENTS.md                       # Agent working rules
 └── README.md
 ```
 
-## 🤖 AI Prompts
+## 🤖 AI Code Review Agents
 
-### Onboard Repo Prompt
+This repository includes three AI code review agents for different platforms:
+
+### 1. GitHub Copilot - Judge Agent
+**Location**: `.github/agents/judge.agent.md`
+- Two modes: **Plan-Gate** (before coding) and **Diff-Gate** (after coding)
+- Trigger: `@copilot /judge` in GitHub PRs
+- Outputs: `APPROVE` | `REQUEST_CHANGES` | `BLOCK`
+
+### 2. Cursor AI - BUGBOT
+**Location**: `.cursor/BUGBOT.md`
+- Strict code review judge focused on blockers and regressions
+- Trigger: Reference BUGBOT rules in Cursor Chat/Composer
+- Outputs: Checklist with blockers, high/medium/low priority items
+
+### 3. Gemini Code Assist
+**Location**: `.gemini/styleguide.md`
+- Merge gate reviewer with severity labels
+- Trigger: Via Cloud Code extension or Gemini API
+- Outputs: Findings categorized as Critical/High/Medium/Low
+
+**📖 [See CODE_REVIEW.md for detailed instructions on triggering reviews](./CODE_REVIEW.md)**
+
+## 🤖 AI Onboarding Prompts
+
+### Repo Onboarding Prompt
+**Location**: `.github/prompts/repo-onboarding.md`
+
 A comprehensive prompt that helps AI assistants understand and work with any codebase. It guides the AI to:
 - Build a mental model of the repository before making changes
 - Create/maintain an `AI_REPO_GUIDE.md` for persistent repo memory
 - Make minimal, well-tested changes
-
-### Judge Agent
-A review-only AI agent that operates in two modes:
-- **Plan-Gate Mode** - Reviews implementation plans before coding
-- **Diff-Gate Mode** - Reviews code changes and PRs
-
-Outputs: `APPROVE` | `REQUEST_CHANGES` | `BLOCK`
 
 ## 🔧 Setup
 
