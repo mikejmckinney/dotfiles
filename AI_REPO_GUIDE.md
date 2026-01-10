@@ -35,11 +35,12 @@ bash install.sh
 ├── .gemini/
 │   └── styleguide.md         # Gemini Code Assist review style
 └── .github/
+    ├── copilot-instructions.md   # GitHub Copilot instructions (auto-read)
     ├── agents/
-    │   └── judge.agent.md    # Plan-gate + diff-gate reviewer agent
+    │   └── judge.agent.md        # Plan-gate + diff-gate reviewer agent
     └── prompts/
-        ├── copilot-onboarding.md   # Instructions for creating copilot-instructions.md
-        └── repo-onboarding.md      # Comprehensive repo onboarding prompt
+        ├── copilot-onboarding.md # Guide for customizing copilot-instructions.md
+        └── repo-onboarding.md    # Comprehensive repo onboarding prompt
 ```
 
 ## Key Files by Purpose
@@ -48,6 +49,7 @@ bash install.sh
 | File | Tool/Platform | Purpose |
 |------|--------------|---------|
 | `AGENTS.md` | Most AI tools | Root instructions, points to this file |
+| `.github/copilot-instructions.md` | GitHub Copilot | Copilot-specific instructions |
 | `.cursor/BUGBOT.md` | Cursor Bugbot | PR review rules |
 | `.gemini/styleguide.md` | Gemini Code Assist | PR review style guide |
 | `.github/agents/judge.agent.md` | GitHub Copilot | Plan/diff gate agent |
@@ -55,7 +57,7 @@ bash install.sh
 ### Prompts (user-triggered, not auto-loaded)
 | File | Purpose |
 |------|---------|
-| `.github/prompts/copilot-onboarding.md` | Guide for creating copilot-instructions.md |
+| `.github/prompts/copilot-onboarding.md` | Guide for customizing copilot-instructions.md |
 | `.github/prompts/repo-onboarding.md` | Comprehensive repo onboarding workflow |
 
 ### Setup Scripts

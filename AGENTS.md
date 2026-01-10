@@ -1,18 +1,19 @@
 # AGENTS.md
 
-## Required context (read first)
-1) Always read `./AI_REPO_GUIDE.md` before planning or making changes.
-2) Treat it as the canonical “repo memory” for:
-   - architecture map / key flows
-   - where to make changes
-   - golden path commands (build/test/lint)
-   - conventions + gotchas
+## Always do this first
+- Read `/AI_REPO_GUIDE.md`.
+- If missing or stale: follow `.github/prompts/repo-onboarding.md` to rebuild context and update AI_REPO_GUIDE.md.
 
-If `AI_REPO_GUIDE.md` is missing or stale:
-- Create/update it as the first step.
-- Prefer repo truth (actual scripts/configs) over guesses; document corrections in `AI_REPO_GUIDE.md`.
+## Ongoing maintenance
+- If your PR changes build/run/test/lint commands, layout, entry points, configs, conventions, or troubleshooting:
+  update `/AI_REPO_GUIDE.md` in the same PR (or explicitly say "AI_REPO_GUIDE.md: no changes required").
 
-## Working rules
-- Minimize diffs; follow existing patterns.
-- Verify with the repo’s documented commands (see `AI_REPO_GUIDE.md`).
-- If instructions conflict, call it out and propose a resolution.
+## Validation
+- Run the repo's verification commands (prefer those documented in AI_REPO_GUIDE.md) before declaring done.
+
+## Review guidelines
+- Block on failing CI/tests or missing test coverage for changed behavior.
+- Require exact repro/verification commands for any functional change.
+- Prefer minimal diffs; avoid drive-by refactors.
+- No secrets/PII in logs.
+- Call out risk areas: authz, data migrations, concurrency, perf regressions.

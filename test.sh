@@ -48,6 +48,7 @@ REQUIRED_FILES=(
     "install.sh"
     ".cursor/BUGBOT.md"
     ".gemini/styleguide.md"
+    ".github/copilot-instructions.md"
     ".github/agents/judge.agent.md"
     ".github/prompts/copilot-onboarding.md"
     ".github/prompts/repo-onboarding.md"

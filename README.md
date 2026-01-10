@@ -27,10 +27,11 @@ A template repository for GitHub Codespaces that provides pre-configured AI agen
 │   └── styleguide.md             # Gemini Code Assist style guide
 │
 └── .github/
+    ├── copilot-instructions.md   # GitHub Copilot instructions (auto-read)
     ├── agents/
     │   └── judge.agent.md        # GitHub Copilot plan/diff gate agent
     └── prompts/
-        ├── copilot-onboarding.md # Guide for creating copilot-instructions.md
+        ├── copilot-onboarding.md # Guide for customizing copilot-instructions.md
         └── repo-onboarding.md    # Comprehensive repo onboarding prompt
 ```
 
@@ -41,6 +42,7 @@ A template repository for GitHub Codespaces that provides pre-configured AI agen
 | File | Platform | Purpose |
 |------|----------|---------|
 | `AGENTS.md` | Most AI tools | Root instructions, references AI_REPO_GUIDE.md |
+| `.github/copilot-instructions.md` | GitHub Copilot | Copilot-specific instructions |
 | `.cursor/BUGBOT.md` | Cursor Bugbot | Strict PR review rules with verification |
 | `.gemini/styleguide.md` | Gemini Code Assist | PR review with severity labels |
 | `.github/agents/judge.agent.md` | GitHub Copilot | Plan-gate + diff-gate reviewer |
@@ -49,7 +51,7 @@ A template repository for GitHub Codespaces that provides pre-configured AI agen
 
 | File | Purpose |
 |------|---------|
-| `.github/prompts/copilot-onboarding.md` | Create copilot-instructions.md for a repo |
+| `.github/prompts/copilot-onboarding.md` | Guide for customizing copilot-instructions.md |
 | `.github/prompts/repo-onboarding.md` | Comprehensive onboarding workflow |
 
 ## 📦 Included VS Code Extensions
