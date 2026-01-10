@@ -12,7 +12,7 @@ handoffs:
     agent: agent
     prompt: >
       Implement the approved plan. Keep diffs minimal, add/update tests, and update AI_REPO_GUIDE.md if anything changes.
-    send: false
+    send: false 
 ---
 
 # Judge agent (review-only)
