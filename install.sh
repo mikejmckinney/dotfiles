@@ -1,5 +1,5 @@
 #!/bin/bash
-
+ 
 # This script will run automatically every time a Codespace starts. 
 # Use it to force-install your extensions and copy your prompt file into the workspace.
 
