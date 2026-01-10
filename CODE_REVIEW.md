@@ -156,7 +156,7 @@ VALIDATION:
 
 #### Method 2: Via Gemini in Google Cloud Console
 1. Go to Google Cloud Console
-2. Navigate to "Code Assist" or "Duet AI"
+2. Navigate to "Gemini Code Assist"
 3. Upload or reference your code/diff
 4. Include instruction: "Review according to the style guide at .gemini/styleguide.md"
 5. Request review
