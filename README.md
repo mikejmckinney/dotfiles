@@ -1,3 +1,6 @@
+<!-- TEMPLATE_PLACEHOLDER: GENERATED FROM mikejmckinney/dotfiles. -->
+<!-- THIS REPO IS NOT THE TEMPLATE ITSELF. Replace this README for the actual project. -->
+
 # AI-Ready Repository Template
 
 A template repository for GitHub Codespaces that provides pre-configured AI agent prompts and automatic development environment setup. Use this as a starting point for new repositories or link it to your Codespaces settings.
