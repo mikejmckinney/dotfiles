@@ -1,3 +1,6 @@
+<!-- TEMPLATE_PLACEHOLDER: This file must be regenerated for the actual project repo. -->
+<!-- Run .github/prompts/repo-onboarding.md to rebuild this guide from real repo assets. -->
+
 # AI_REPO_GUIDE.md
 
 > **Purpose**: Canonical reference for AI agents working with this template repository.  
