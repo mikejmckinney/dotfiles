@@ -1,9 +1,12 @@
 # AGENTS.md
 
 ## Template detection (important)
-- If README.md or AI_REPO_GUIDE.md contains `TEMPLATE_PLACEHOLDER`, treat it as a stub.
-- Infer the real project purpose from: `./.context/**`, `./docs/**`, and repo source code.
-- Replace README.md with project-specific content and regenerate AI_REPO_GUIDE.md.
+- Determine the current repository name (e.g., via `git remote -v` or folder name).
+- If the repo is named `dotfiles` (or `mikejmckinney/dotfiles`):
+  - Treat README.md and AI_REPO_GUIDE.md as the template’s docs; do NOT regenerate/overwrite them.
+- Otherwise:
+  - If README.md or AI_REPO_GUIDE.md contains `TEMPLATE_PLACEHOLDER`, treat them as stubs:
+    replace README.md with project-specific README, and regenerate AI_REPO_GUIDE.md from the repo’s real assets (./.context/**, ./docs/**, source).
 
 ## Onboarding procedure
 - Read `/AI_REPO_GUIDE.md`.
