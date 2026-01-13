@@ -1,3 +1,7 @@
+## Template detection
+- If README.md or AI_REPO_GUIDE.md contains `TEMPLATE_PLACEHOLDER`, they are placeholders.
+- Determine repo purpose from `./.context/**` and `./docs/**` and code, then replace README.md and regenerate AI_REPO_GUIDE.md.
+
 ## Required context
 - Always read `/AI_REPO_GUIDE.md` first.
 - If AI_REPO_GUIDE.md is missing/stale: follow `.github/prompts/repo-onboarding.md` and update AI_REPO_GUIDE.md in the same PR.
