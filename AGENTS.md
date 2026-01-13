@@ -1,6 +1,11 @@
 # AGENTS.md
 
-## Always do this first
+## Template detection (important)
+- If README.md or AI_REPO_GUIDE.md contains `TEMPLATE_PLACEHOLDER`, treat it as a stub.
+- Infer the real project purpose from: `./.context/**`, `./docs/**`, and repo source code.
+- Replace README.md with project-specific content and regenerate AI_REPO_GUIDE.md.
+
+## Onboarding procedure
 - Read `/AI_REPO_GUIDE.md`.
 - If missing or stale: follow `.github/prompts/repo-onboarding.md` to rebuild context and update AI_REPO_GUIDE.md.
 
