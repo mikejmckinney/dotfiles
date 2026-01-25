@@ -115,9 +115,11 @@ if [[ -f "$CONFIG_FILE" ]]; then
         REPO_URL=$(git remote get-url origin)
         
         # Parse owner/repo from various URL formats
-        if [[ "$REPO_URL" =~ github\.com[:/]([^/]+)/([^/\.]+) ]]; then
+        if [[ "$REPO_URL" =~ github\.com[:/]([^/]+)/(.+) ]]; then
             REPO_OWNER="${BASH_REMATCH[1]}"
             REPO_NAME="${BASH_REMATCH[2]}"
+            # Remove .git suffix if present
+            REPO_NAME="${REPO_NAME%.git}"
             
             DISCUSSIONS_URL="https://github.com/$REPO_OWNER/$REPO_NAME/discussions"
             

@@ -69,9 +69,11 @@ log_info "Repository URL: $REPO_URL"
 # Supports: https://github.com/owner/repo.git
 #           git@github.com:owner/repo.git
 #           https://github.com/owner/repo
-if [[ "$REPO_URL" =~ github\.com[:/]([^/]+)/([^/\.]+) ]]; then
+if [[ "$REPO_URL" =~ github\.com[:/]([^/]+)/(.+?)(\.git)?$ ]]; then
     REPO_OWNER="${BASH_REMATCH[1]}"
     REPO_NAME="${BASH_REMATCH[2]}"
+    # Remove .git suffix if present
+    REPO_NAME="${REPO_NAME%.git}"
     
     log_info "Repository: $REPO_OWNER/$REPO_NAME"
     
@@ -84,9 +86,9 @@ if [[ "$REPO_URL" =~ github\.com[:/]([^/]+)/([^/\.]+) ]]; then
         cp "$CONFIG_FILE" "$CONFIG_FILE.backup"
         log_info "Created backup: $CONFIG_FILE.backup"
         
-        # Replace placeholder with actual URL
-        if sed -i.backup.sed "s|https://github.com/YOUR_USERNAME/YOUR_REPOSITORY/discussions|$DISCUSSIONS_URL|g" "$CONFIG_FILE"; then
-            rm -f "$CONFIG_FILE.backup.sed"
+        # Replace placeholder with actual URL (backup already created above)
+        if sed -i '' "s|https://github.com/YOUR_USERNAME/YOUR_REPOSITORY/discussions|$DISCUSSIONS_URL|g" "$CONFIG_FILE" 2>/dev/null ||
+           sed -i "s|https://github.com/YOUR_USERNAME/YOUR_REPOSITORY/discussions|$DISCUSSIONS_URL|g" "$CONFIG_FILE"; then
             log_info "✅ Successfully updated $CONFIG_FILE"
             
             # Show the diff
