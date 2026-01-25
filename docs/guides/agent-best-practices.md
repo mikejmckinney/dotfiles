@@ -43,12 +43,12 @@ Example:
 If a file exceeds these limits, split it:
 ```
 # Instead of one large file:
-context/rules.md (800 lines)
+.context/rules.md (800 lines)
 
 # Split into focused files:
-context/rules/domain_auth.md (150 lines)
-context/rules/domain_data.md (200 lines)
-context/rules/domain_api.md (180 lines)
+.context/rules/domain_auth.md (150 lines)
+.context/rules/domain_data.md (200 lines)
+.context/rules/domain_api.md (180 lines)
 ```
 
 #### 2. Use Clear File Names
@@ -80,7 +80,7 @@ For large projects, create a summary file that agents can read first:
 
 ## What to Read
 1. This file (you're here)
-2. state/active_task.md (current work)
+2. state/_active.md or task_*.md (current work)
 3. Only load rules/* files when making changes to those domains
 ```
 
@@ -103,7 +103,7 @@ Authentication must use bcrypt with cost factor 12...
 
 ### The Problem
 
-If multiple agents work simultaneously (or a human and agent), `.context/state/active_task.md` can have merge conflicts.
+If multiple agents work simultaneously (or a human and agent), task files can have merge conflicts.
 
 ### Mitigations
 
@@ -117,7 +117,7 @@ If you need parallel task tracking, use separate files:
 
 ```
 .context/state/
-├── active_task.md           # Summary/index
+├── _active.md               # Points to priority task
 ├── task_feature_auth.md     # Task 1 details
 ├── task_bugfix_api.md       # Task 2 details
 └── task_refactor_ui.md      # Task 3 details
@@ -128,7 +128,7 @@ If you need parallel task tracking, use separate files:
 Add a simple lock mechanism:
 
 ```markdown
-# active_task.md
+# _active.md
 
 ## Lock Status
 **Locked By**: agent-cursor-session-abc123
@@ -147,10 +147,10 @@ For significant parallel work, use feature branches. Each branch has its own sta
 
 ```bash
 # Branch: feature/user-auth
-.context/state/active_task.md  # Auth work
+.context/state/task_auth.md  # Auth work
 
 # Branch: feature/api-refactor  
-.context/state/active_task.md  # API work
+.context/state/task_api.md   # API work
 ```
 
 Merge conflicts only occur when branches merge.
@@ -206,7 +206,7 @@ When an agent session ends (or a new agent takes over), follow this protocol:
 
 ### Ending a Session
 
-1. **Update `active_task.md`** with:
+1. **Update your task file** (`task_*.md`) with:
    - What was accomplished
    - What's left to do
    - Any blockers or open questions
@@ -237,7 +237,7 @@ Follow these steps in order:
 
 1. **Read the current task**:
    ```
-   .context/state/active_task.md
+   .context/state/_active.md  # or task_*.md
    ```
    This tells you the immediate goal.
 
@@ -268,7 +268,7 @@ Follow these steps in order:
    Before proceeding, output a status report:
    ```
    "I have reviewed the context.
-   - Current task: [Task Name from active_task.md]
+   - Current task: [Task Name from task file]
    - Environment: [Stable/Unstable based on verify-env output]
    - Last session: [Brief summary from sessions/latest_summary.md]
    - Ready for instructions."

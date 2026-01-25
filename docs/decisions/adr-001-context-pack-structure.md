@@ -34,7 +34,8 @@ We will use a `.context/` directory structure as the canonical source of project
 ├── rules/               # Immutable domain constraints
 │   └── domain_*.md      # Specific rule files
 ├── state/               # Mutable progress tracking
-│   └── active_task.md   # Current task for session handoff
+│   ├── _active.md       # Points to current priority task
+│   └── task_*.md        # Individual task files
 └── vision/              # Design artifacts
     ├── mockups/         # UI/UX designs
     └── architecture/    # System diagrams
@@ -63,7 +64,7 @@ Priority order when conflicts arise:
 
 ### Positive
 
-- **Session continuity**: `active_task.md` enables cognitive handoff between sessions
+- **Session continuity**: Task files (`task_*.md`) enable cognitive handoff between sessions
 - **Selective loading**: Agents can load only what's needed (rules vs. state vs. roadmap)
 - **Clear authority**: Priority hierarchy resolves conflicting information
 - **Separation of concerns**: Immutable rules vs. mutable state vs. design vision

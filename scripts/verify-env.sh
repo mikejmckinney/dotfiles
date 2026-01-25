@@ -118,10 +118,10 @@ else
     warn ".context/00_INDEX.md missing - run repo-onboarding"
 fi
 
-if [[ -f ".context/state/active_task.md" ]]; then
-    pass ".context/state/active_task.md exists"
+if [[ -f ".context/state/_active.md" ]]; then
+    pass ".context/state/_active.md exists"
 else
-    warn ".context/state/active_task.md missing"
+    warn ".context/state/_active.md missing"
 fi
 
 echo ""

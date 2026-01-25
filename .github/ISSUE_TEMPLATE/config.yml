@@ -4,5 +4,5 @@
 blank_issues_enabled: true
 contact_links:
   - name: Discussions
-    url: https://github.com/mikejmckinney/dotfiles/discussions
+    url: https://github.com/YOUR_USERNAME/YOUR_REPOSITORY/discussions
     about: Use discussions for questions, ideas, and general conversation

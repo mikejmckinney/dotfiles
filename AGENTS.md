@@ -16,7 +16,7 @@ When information conflicts, use this priority order:
 
 ## Context pack usage
 - Start with `.context/00_INDEX.md` for project overview
-- Check `.context/state/active_task.md` for current work in progress
+- Check `.context/state/_active.md` or `task_*.md` for current work in progress
 - Reference `.context/rules/` for constraints that must not be violated
 - Use `.context/roadmap.md` to understand project phases
 - Reference `.context/vision/` for design mockups and architecture
@@ -24,13 +24,13 @@ When information conflicts, use this priority order:
 ## Onboarding procedure
 1. Read `/AI_REPO_GUIDE.md`.
 2. Read `.context/00_INDEX.md` if it exists.
-3. Check `.context/state/active_task.md` for cognitive handoff from previous sessions.
+3. Check `.context/state/_active.md` or `task_*.md` for cognitive handoff from previous sessions.
 4. If AI_REPO_GUIDE.md missing or stale: follow `.github/prompts/repo-onboarding.md` to rebuild context.
 
 ## Ongoing maintenance
 - If your PR changes build/run/test/lint commands, layout, entry points, configs, conventions, or troubleshooting:
   update `/AI_REPO_GUIDE.md` in the same PR (or explicitly say "AI_REPO_GUIDE.md: no changes required").
-- Update `.context/state/active_task.md` when switching tasks to enable session handoff.
+- Update `.context/state/task_*.md` when switching tasks to enable session handoff.
 
 ## Testing requirements
 - Follow the test pyramid: many unit tests, fewer integration tests, minimal E2E tests.

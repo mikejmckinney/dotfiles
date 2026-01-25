@@ -41,7 +41,8 @@ A template repository for GitHub Codespaces that provides pre-configured AI agen
 │   ├── roadmap.md                # Phase-by-phase plan
 │   ├── rules/                    # Immutable domain constraints
 │   ├── state/                    # Mutable progress tracking
-│   │   └── active_task.md        # Current task for session handoff
+│   │   ├── _active.md            # Points to current priority task
+│   │   └── task_*.md             # Individual task files
 │   └── vision/                   # Design artifacts
 │       ├── mockups/              # UI/UX mockups
 │       └── architecture/         # System diagrams
@@ -104,7 +105,7 @@ A template repository for GitHub Codespaces that provides pre-configured AI agen
 | `.context/00_INDEX.md` | Entry point - project summary and key decisions |
 | `.context/roadmap.md` | Phase-by-phase plan with acceptance criteria |
 | `.context/rules/` | Immutable constraints (domain rules) |
-| `.context/state/active_task.md` | Current task for cognitive handoff |
+| `.context/state/task_*.md` | Current task(s) for cognitive handoff |
 | `.context/sessions/` | Session history to prevent repeating mistakes |
 | `.context/vision/` | Mockups and architecture diagrams |
 
@@ -207,7 +208,7 @@ Please:
 Use this prompt to continue work on an existing repo:
 
 ```markdown
-1. Read .context/state/active_task.md to understand the immediate goal.
+1. Read .context/state/_active.md or task_*.md to understand the immediate goal.
 2. Read .context/00_INDEX.md to locate relevant rules/constraints.
 3. Check: Run `git status` and `./scripts/verify-env.sh` to ensure stability.
 4. Skim: Review .context/sessions/latest_summary.md for recent decisions.
@@ -304,7 +305,7 @@ When using this template in a new repository:
 2. **Define roadmap phases** - Use `.context/roadmap.md` to plan work
 3. **Create domain rules** - Add constraints to `.context/rules/`
 4. **Start with mockups** - Add design artifacts to `.context/vision/` before coding
-5. **Update `active_task.md`** - Enable cognitive handoff between sessions
+5. **Create task files** - Use `state/task_*.md` for cognitive handoff between sessions
 6. **Keep AGENTS.md minimal** - It should just point to AI_REPO_GUIDE.md
 7. **Customize CI pipeline** - Update `ci-tests.yml` for your tech stack
 8. **Run tests** - Use `./test.sh` to verify your customizations

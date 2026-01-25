@@ -42,8 +42,9 @@ bash install.sh
 │   ├── 00_INDEX.md           # Context entry point
 │   ├── roadmap.md            # Phase-by-phase plan
 │   ├── rules/                # Immutable domain constraints
-│   ├── state/                # Mutable progress tracking
-│   │   └── active_task.md    # Current task for session handoff
+│   ├── state/                # Task tracking (supports parallel work)
+│   │   ├── _active.md        # Points to current priority task
+│   │   └── task_*.md         # Individual task files
 │   └── vision/               # Design artifacts
 │       ├── mockups/          # UI/UX mockups
 │       └── architecture/     # System diagrams
@@ -89,7 +90,7 @@ bash install.sh
 | `.context/00_INDEX.md` | Entry point, project summary |
 | `.context/roadmap.md` | Phase-by-phase plan |
 | `.context/rules/` | Domain constraints (never violate) |
-| `.context/state/active_task.md` | Current task for session handoff |
+| `.context/state/task_*.md` | Current task(s) for session handoff |
 | `.context/vision/` | Mockups and architecture diagrams |
 
 ### Prompts (user-triggered, not auto-loaded)

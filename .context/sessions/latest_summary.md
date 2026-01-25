@@ -4,7 +4,7 @@
 
 > **Purpose**: Capture what happened in the most recent session, especially decisions and lessons learned. This prevents repeating mistakes and enables cognitive handoff.
 >
-> **Note**: For current task progress, see `.context/state/active_task.md`
+> **Note**: For current task progress, see `.context/state/_active.md` or `task_*.md`
 
 ## Session Info
 

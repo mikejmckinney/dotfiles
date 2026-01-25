@@ -2,8 +2,8 @@
 
 > **Purpose**: Track what happened in previous coding sessions to prevent repeating mistakes and enable cognitive handoff.
 >
-> **Distinction from `active_task.md`**:
-> - `active_task.md` = What you're working on (the objective and progress)
+> **Distinction from task files (`state/task_*.md`)**:
+> - `state/task_*.md` = What you're working on (the objective and progress)
 > - `sessions/` = What happened and what you learned (history and lessons)
 
 ## How to Use
