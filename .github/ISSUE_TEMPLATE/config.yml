@@ -6,5 +6,5 @@ contact_links:
   - name: Discussions
     # This URL is automatically updated by install.sh or can be manually updated with:
     # ./scripts/update-issue-template.sh
-    url: https://github.com/mikejmckinney/dotfiles/discussions
+    url: https://github.com/YOUR_USERNAME/YOUR_REPOSITORY/discussions
     about: Use discussions for questions, ideas, and general conversation
