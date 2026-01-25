@@ -73,7 +73,9 @@ CONTEXT_FILES=(
     ".context/rules/README.md"
     ".context/sessions/README.md"
     ".context/sessions/latest_summary.md"
-    ".context/state/active_task.md"
+    ".context/state/README.md"
+    ".context/state/_active.md"
+    ".context/state/task_template.md"
     ".context/vision/README.md"
 )
 
@@ -110,6 +112,7 @@ echo "Checking docs structure..."
 DOCS_FILES=(
     "docs/README.md"
     "docs/guides/agent-best-practices.md"
+    "docs/guides/context-files-explained.md"
     "docs/decisions/adr-template.md"
     "docs/decisions/adr-001-context-pack-structure.md"
 )

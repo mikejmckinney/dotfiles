@@ -1,17 +1,19 @@
-<!-- TEMPLATE_PLACEHOLDER: Update with current task -->
+<!-- TEMPLATE_PLACEHOLDER: Copy this file to create a new task -->
+<!-- Usage: cp task_template.md task_<your-task-id>.md -->
 
-# Active Task
+# Task: [Title]
 
-> **Purpose**: The SINGLE source of truth for the current objective. Track what you're working on and where you left off.
+> **Purpose**: Track progress on a specific task. Copy this template to create new tasks.
 >
 > **Note**: For session history and lessons learned, see `.context/sessions/latest_summary.md`
 
-## Current Task
+## Task Info
 
-**Task ID**: N/A  
-**Title**: No active task  
-**Started**: N/A  
-**Status**: [ ] Not Started / [ ] In Progress / [ ] Blocked / [ ] Complete
+**ID**: [unique-id, e.g., feature_auth, bugfix_123]  
+**Title**: [Short descriptive title]  
+**Created**: [Date]  
+**Status**: [ ] Not Started / [ ] In Progress / [ ] Blocked / [ ] Complete  
+**Assigned**: [Agent/Developer, optional]
 
 ## Objective
 
@@ -62,9 +64,10 @@ When this task is complete, verify by:
 
 ---
 
-## How to Use This File
+## How to Use This Template
 
-1. **Starting a task**: Fill in Task ID, Title, Objective, and initial Remaining items
-2. **During work**: Move items from Remaining → In Progress → Completed
-3. **Switching tasks**: Archive current task (copy to `sessions/`) and start fresh
-4. **Ending session**: Update progress, then update `sessions/latest_summary.md` with lessons learned
+1. **Copy**: `cp task_template.md task_<your-id>.md`
+2. **Fill in**: Task ID, Title, Objective, and Remaining items
+3. **During work**: Move items through the progress sections
+4. **Complete**: Run verification, then delete or archive the task file
+5. **End of session**: Update `sessions/latest_summary.md` with lessons learned

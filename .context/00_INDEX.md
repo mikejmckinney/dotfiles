@@ -23,8 +23,11 @@ The `.context/` directory contains **canonical project truth**.
 │   └── domain_*.md      # Domain-specific rules (e.g., domain_auth.md)
 ├── sessions/            # Session history to prevent repeating mistakes
 │   └── latest_summary.md # Most recent session summary
-├── state/               # Mutable progress tracking
-│   └── active_task.md   # Current task being worked on (The Cursor)
+├── state/               # Task tracking (supports parallel work)
+│   ├── README.md        # How to create and manage tasks
+│   ├── _active.md       # Points to current priority task
+│   ├── task_template.md # Copy this to create new tasks
+│   └── task_<id>.md     # Individual task files
 └── vision/              # Design artifacts (mockups, diagrams)
     ├── mockups/         # UI/UX mockups and wireframes
     └── architecture/    # System architecture diagrams (use Mermaid.js)
@@ -33,13 +36,15 @@ The `.context/` directory contains **canonical project truth**.
 ## Quick Start for Agents (Lazy Load Pattern)
 
 1. Read this file first (The Map)
-2. Check `state/active_task.md` for current work (The Cursor)
+2. Check `state/_active.md` or `state/task_*.md` for current work
 3. Read `sessions/latest_summary.md` for what happened last session
 4. Read `roadmap.md` to understand project phases (The Plan)
 5. Reference `rules/` ONLY when making changes to those domains
 6. Reference `vision/` for design guidance
 
 **Note:** Don't read everything at once. This index tells you what exists; load files on-demand to save tokens.
+
+**For full documentation on file purposes**, see `docs/guides/context-files-explained.md`.
 
 ## Project Summary
 

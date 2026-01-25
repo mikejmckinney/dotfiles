@@ -79,6 +79,7 @@ What are the positive and negative consequences?
 ## Current Documentation
 
 ### Guides
+- [Context Files Explained](guides/context-files-explained.md) - **Start here**: Understanding all the documentation files
 - [Agent Best Practices](guides/agent-best-practices.md) - Token limits, state conflicts, secrets, session handoff
 
 ### Decisions (ADRs)
