@@ -111,6 +111,7 @@ if [[ "$REPO_URL" =~ github\.com[:/]([^/]+)/([^/]+)$ ]]; then
         log_info "✅ Config file already updated (no placeholder found)"
         
         # Show current discussions URL
+        # Assumes YAML format with 'url:' on its own line, optionally indented
         CURRENT_URL=$(grep "^[[:space:]]*url:" "$CONFIG_FILE" | head -1 | sed 's/^[[:space:]]*url:[[:space:]]*//')
         if [[ -n "$CURRENT_URL" ]]; then
             log_info "Current discussions URL: $CURRENT_URL"

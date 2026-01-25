@@ -126,12 +126,13 @@ if [[ -f "$CONFIG_FILE" ]]; then
             # Check if placeholder exists
             if grep -q "YOUR_USERNAME/YOUR_REPOSITORY" "$CONFIG_FILE"; then
                 # Replace placeholder with actual URL
-                if sed -i.bak "s|https://github.com/YOUR_USERNAME/YOUR_REPOSITORY/discussions|$DISCUSSIONS_URL|g" "$CONFIG_FILE"; then
-                    rm -f "$CONFIG_FILE.bak"
+                PLACEHOLDER_URL="https://github.com/YOUR_USERNAME/YOUR_REPOSITORY/discussions"
+                # Try BSD sed (macOS) first, then fall back to GNU sed (Linux)
+                if sed -i '' "s|$PLACEHOLDER_URL|$DISCUSSIONS_URL|g" "$CONFIG_FILE" 2>/dev/null ||
+                   sed -i "s|$PLACEHOLDER_URL|$DISCUSSIONS_URL|g" "$CONFIG_FILE"; then
                     log_info "  ✓ Updated config.yml with: $DISCUSSIONS_URL"
                 else
                     log_warn "  ⚠ Failed to update config.yml"
-                    rm -f "$CONFIG_FILE.bak"
                 fi
             else
                 log_info "  ✓ config.yml already configured (no placeholder found)"
