@@ -332,6 +332,7 @@ done
 
 # Check scripts are executable
 for script in scripts/*.sh; do
+    [ -f "$script" ] || continue
     if [[ -x "$script" ]]; then
         pass "$script is executable"
     else
