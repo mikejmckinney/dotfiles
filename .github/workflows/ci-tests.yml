@@ -1,0 +1,111 @@
+# TEMPLATE_PLACEHOLDER: Customize for your project's build/test/lint commands
+#
+# Self-Healing CI Pipeline
+# -------------------------
+# This workflow runs on every push and PR. If tests fail:
+# 1. Error logs are captured
+# 2. Agent should read logs and fix issues
+# 3. Retry until passing before marking tasks complete
+#
+# Customize the commands below for your tech stack.
+
+name: CI Tests
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+# Cancel in-progress runs for the same branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # =====================================================
+      # CUSTOMIZE THIS SECTION FOR YOUR TECH STACK
+      # =====================================================
+      
+      # Node.js example:
+      # - name: Setup Node.js
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: '20'
+      #     cache: 'npm'
+      #
+      # - name: Install dependencies
+      #   run: npm ci
+      #
+      # - name: Run linter
+      #   run: npm run lint
+      #
+      # - name: Run type check
+      #   run: npm run typecheck
+      #
+      # - name: Run tests
+      #   run: npm test
+      #
+      # - name: Build
+      #   run: npm run build
+
+      # Python example:
+      # - name: Setup Python
+      #   uses: actions/setup-python@v5
+      #   with:
+      #     python-version: '3.11'
+      #     cache: 'pip'
+      #
+      # - name: Install dependencies
+      #   run: pip install -r requirements.txt
+      #
+      # - name: Run linter
+      #   run: ruff check .
+      #
+      # - name: Run type check
+      #   run: mypy .
+      #
+      # - name: Run tests
+      #   run: pytest --cov
+
+      # =====================================================
+      # PLACEHOLDER: Remove after customizing
+      # =====================================================
+      - name: Placeholder check
+        run: |
+          echo "CI pipeline placeholder - customize for your project"
+          echo "See comments in this file for Node.js and Python examples"
+          
+      # Verify template files exist (useful for template repo itself)
+      - name: Verify template structure
+        run: |
+          if [ -f "./test.sh" ]; then
+            ./test.sh
+          else
+            echo "No test.sh found - add project-specific tests"
+          fi
+
+  # Optional: Build job for compiled projects
+  # build:
+  #   runs-on: ubuntu-latest
+  #   needs: test
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Build
+  #       run: echo "Add build commands here"
+
+  # Optional: Deploy preview for PRs
+  # preview:
+  #   runs-on: ubuntu-latest
+  #   needs: build
+  #   if: github.event_name == 'pull_request'
+  #   steps:
+  #     - name: Deploy preview
+  #       run: echo "Add preview deployment here"

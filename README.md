@@ -3,16 +3,18 @@
 
 # AI-Ready Repository Template
 
-A template repository for GitHub Codespaces that provides pre-configured AI agent prompts and automatic development environment setup. Use this as a starting point for new repositories or link it to your Codespaces settings.
+A template repository for GitHub Codespaces that provides pre-configured AI agent prompts, context management for LLM memory, and automatic development environment setup. Use this as a starting point for new repositories or link it to your Codespaces settings.
 
-## 🚀 Features
+## Features
 
 - **AI Agent Prompts** - Pre-configured prompts for onboarding AI assistants to any codebase
+- **Context Pack** - Structured directory (`.context/`) for project memory across LLM sessions
 - **Automatic Extension Installation** - Essential VS Code extensions installed on Codespace start
 - **Multi-Platform Support** - Works with Cursor, GitHub Copilot, Gemini Code Assist, and more
+- **CI/CD Templates** - Self-healing pipeline, keep-warm, and connectivity check workflows
 - **Verification Scripts** - Built-in testing to ensure template integrity
 
-## 📁 Repository Structure
+## Repository Structure
 
 ```
 /
@@ -22,6 +24,22 @@ A template repository for GitHub Codespaces that provides pre-configured AI agen
 ├── README.md                     # This file
 ├── install.sh                    # Codespace bootstrap script
 ├── test.sh                       # Template verification script
+│
+├── .context/                     # Project context (canonical truth)
+│   ├── 00_INDEX.md               # Context entry point
+│   ├── roadmap.md                # Phase-by-phase plan
+│   ├── rules/                    # Immutable domain constraints
+│   ├── state/                    # Mutable progress tracking
+│   │   └── active_task.md        # Current task for session handoff
+│   └── vision/                   # Design artifacts
+│       ├── mockups/              # UI/UX mockups
+│       └── architecture/         # System diagrams
+│
+├── docs/                         # Human reference documentation
+│   ├── README.md                 # Documentation guide
+│   ├── reference/                # Specs, research
+│   ├── guides/                   # How-to guides
+│   └── decisions/                # Architecture Decision Records
 │
 ├── .cursor/
 │   └── BUGBOT.md                 # Cursor Bugbot PR review rules
@@ -33,12 +51,17 @@ A template repository for GitHub Codespaces that provides pre-configured AI agen
     ├── copilot-instructions.md   # GitHub Copilot instructions (auto-read)
     ├── agents/
     │   └── judge.agent.md        # GitHub Copilot plan/diff gate agent
-    └── prompts/
-        ├── copilot-onboarding.md # Guide for customizing copilot-instructions.md
-        └── repo-onboarding.md    # Comprehensive repo onboarding prompt
+    ├── prompts/
+    │   ├── copilot-onboarding.md # Guide for customizing copilot-instructions.md
+    │   └── repo-onboarding.md    # Comprehensive repo onboarding prompt
+    └── workflows/
+        ├── auto-resolve-on-merge.yml  # Auto-resolve PR comments
+        ├── ci-tests.yml               # CI pipeline (customize for project)
+        ├── keep-warm.yml              # Ping backend to prevent suspension
+        └── validate-connections.yml   # Daily connectivity checks
 ```
 
-## 🤖 AI Agent Files
+## AI Agent Files
 
 ### Agent Instructions (auto-loaded by AI tools)
 
@@ -50,6 +73,16 @@ A template repository for GitHub Codespaces that provides pre-configured AI agen
 | `.gemini/styleguide.md` | Gemini Code Assist | PR review with severity labels |
 | `.github/agents/judge.agent.md` | GitHub Copilot | Plan-gate + diff-gate reviewer |
 
+### Context Pack (LLM memory)
+
+| File | Purpose |
+|------|---------|
+| `.context/00_INDEX.md` | Entry point - project summary and key decisions |
+| `.context/roadmap.md` | Phase-by-phase plan with acceptance criteria |
+| `.context/rules/` | Immutable constraints (domain rules) |
+| `.context/state/active_task.md` | Current task for cognitive handoff |
+| `.context/vision/` | Mockups and architecture diagrams |
+
 ### Prompts (user-triggered)
 
 | File | Purpose |
@@ -57,7 +90,7 @@ A template repository for GitHub Codespaces that provides pre-configured AI agen
 | `.github/prompts/copilot-onboarding.md` | Guide for customizing copilot-instructions.md |
 | `.github/prompts/repo-onboarding.md` | Comprehensive onboarding workflow |
 
-## 📦 Included VS Code Extensions
+## Included VS Code Extensions
 
 | Extension | Description |
 |-----------|-------------|
@@ -66,7 +99,16 @@ A template repository for GitHub Codespaces that provides pre-configured AI agen
 | [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) | Code formatter |
 | [Live Share](https://marketplace.visualstudio.com/items?itemName=ms-vsliveshare.vsliveshare) | Real-time collaborative development |
 
-## 🔧 Setup
+## CI/CD Workflows
+
+| Workflow | Purpose | Customization Required |
+|----------|---------|------------------------|
+| `ci-tests.yml` | Build, lint, test on push/PR | Yes - add your commands |
+| `keep-warm.yml` | Ping backend every 14 min | Set `BACKEND_URL` secret |
+| `validate-connections.yml` | Daily connectivity check | Set `BACKEND_URL` secret |
+| `auto-resolve-on-merge.yml` | Resolve threads on merge | None |
+
+## Setup
 
 ### Option 1: Use as Codespaces Dotfiles
 
@@ -75,14 +117,55 @@ A template repository for GitHub Codespaces that provides pre-configured AI agen
 3. Check "Automatically install dotfiles"
 4. Your next Codespace will automatically run `install.sh`
 
-### Option 2: Copy to New Repository
+### Option 2: Create Repository from Template
+
+1. Click "Use this template" on GitHub
+2. Create your new repository
+3. Replace all files containing `TEMPLATE_PLACEHOLDER`
+4. Fill in `.context/00_INDEX.md` with your project details
+5. Customize `ci-tests.yml` for your tech stack
+
+### Option 3: Copy to Existing Repository
 
 1. Clone this repository
-2. Copy desired files to your new project
-3. Customize `install.sh` with your preferred extensions
-4. Create an `AI_REPO_GUIDE.md` specific to your project
+2. Copy desired files to your project
+3. Create an `AI_REPO_GUIDE.md` specific to your project
+4. Customize `.context/` for your project state
 
-## ✅ Verification
+## First-Time Repo Initialization
+
+After creating a repo from this template, create an issue with this prompt for the AI agent:
+
+```markdown
+This repository was created from a template. Any file containing TEMPLATE_PLACEHOLDER is scaffolding.
+
+Truth hierarchy:
+1) ./.context/** (canonical project direction)
+2) ./docs/** (supporting detail)
+3) codebase (implementation reality)
+
+Please:
+1. Verify .context/00_INDEX.md and .github/prompts/*.md exist
+2. Scan and list all files containing TEMPLATE_PLACEHOLDER
+3. Determine project purpose from .context/**, docs/**, and codebase
+4. Run .github/prompts/repo-onboarding.md then copilot-onboarding.md
+5. Replace README.md with project-specific content
+6. Regenerate AI_REPO_GUIDE.md for THIS repo
+7. Do not modify .context/** unless instructed
+```
+
+## Onboarding New Agent Sessions
+
+Use this prompt to continue work on an existing repo:
+
+```markdown
+Read README.md, AI_REPO_GUIDE.md, AGENTS.md, and anything in docs/ or .context/
+Check .context/state/active_task.md for current work
+Skim closed PR discussions for decisions/tradeoffs
+Continue with the next step
+```
+
+## Verification
 
 Run the verification script to ensure all template files are present and valid:
 
@@ -104,14 +187,14 @@ Checking required files...
 ========================================
 Summary
 ========================================
-Passed: 15
+Passed: X
 Warnings: 0
 Failed: 0
 
 Template verification PASSED
 ```
 
-## 🧪 Testing Your Setup
+## Testing Your Setup
 
 ### Manual Verification
 
@@ -136,7 +219,7 @@ bash install.sh
 2. Check that extensions are installed: `code --list-extensions`
 3. Verify prompts are copied to workspace
 
-## 📝 Customization
+## Customization
 
 ### Adding Extensions
 
@@ -161,15 +244,19 @@ EXTENSIONS=(
 - **Gemini**: Add files to `.gemini/`
 - **GitHub Copilot**: Add files to `.github/agents/` or `.github/prompts/`
 
-## 📋 Best Practices
+## Best Practices
 
 When using this template in a new repository:
 
-1. **Create AI_REPO_GUIDE.md** - Document your project's specific structure, commands, and conventions
-2. **Keep AGENTS.md minimal** - It should just point to AI_REPO_GUIDE.md
-3. **Update prompts** - Customize prompts for your project's needs
-4. **Run tests** - Use `./test.sh` to verify your customizations
+1. **Fill in `.context/00_INDEX.md`** - Document your project's purpose and current state
+2. **Define roadmap phases** - Use `.context/roadmap.md` to plan work
+3. **Create domain rules** - Add constraints to `.context/rules/`
+4. **Start with mockups** - Add design artifacts to `.context/vision/` before coding
+5. **Update `active_task.md`** - Enable cognitive handoff between sessions
+6. **Keep AGENTS.md minimal** - It should just point to AI_REPO_GUIDE.md
+7. **Customize CI pipeline** - Update `ci-tests.yml` for your tech stack
+8. **Run tests** - Use `./test.sh` to verify your customizations
 
-## 📄 License
+## License
 
 MIT - Feel free to fork and customize for your own workflow!
