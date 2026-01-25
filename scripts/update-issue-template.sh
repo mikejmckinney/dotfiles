@@ -69,7 +69,7 @@ log_info "Repository URL: $REPO_URL"
 # Supports: https://github.com/owner/repo.git
 #           git@github.com:owner/repo.git
 #           https://github.com/owner/repo
-if [[ "$REPO_URL" =~ github\.com[:/]([^/]+)/(.+)$ ]]; then
+if [[ "$REPO_URL" =~ github\.com[:/]([^/]+)/([^/]+)$ ]]; then
     REPO_OWNER="${BASH_REMATCH[1]}"
     REPO_NAME="${BASH_REMATCH[2]}"
     # Remove .git suffix if present
