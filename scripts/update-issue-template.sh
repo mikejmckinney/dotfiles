@@ -69,10 +69,9 @@ log_info "Repository URL: $REPO_URL"
 # Supports: https://github.com/owner/repo.git
 #           git@github.com:owner/repo.git
 #           https://github.com/owner/repo
-if [[ "$REPO_URL" =~ github\.com[:/]([^/]+)/([^/]+)(\.git)?$ ]]; then
+if [[ "$REPO_URL" =~ github\.com[:/]([^/]+)/([^/\.]+) ]]; then
     REPO_OWNER="${BASH_REMATCH[1]}"
     REPO_NAME="${BASH_REMATCH[2]}"
-    REPO_NAME="${REPO_NAME%.git}"  # Remove .git suffix if present
     
     log_info "Repository: $REPO_OWNER/$REPO_NAME"
     
@@ -86,8 +85,8 @@ if [[ "$REPO_URL" =~ github\.com[:/]([^/]+)/([^/]+)(\.git)?$ ]]; then
         log_info "Created backup: $CONFIG_FILE.backup"
         
         # Replace placeholder with actual URL
-        if sed -i.tmp "s|https://github.com/YOUR_USERNAME/YOUR_REPOSITORY/discussions|$DISCUSSIONS_URL|g" "$CONFIG_FILE"; then
-            rm -f "$CONFIG_FILE.tmp"
+        if sed -i.backup.sed "s|https://github.com/YOUR_USERNAME/YOUR_REPOSITORY/discussions|$DISCUSSIONS_URL|g" "$CONFIG_FILE"; then
+            rm -f "$CONFIG_FILE.backup.sed"
             log_info "✅ Successfully updated $CONFIG_FILE"
             
             # Show the diff
@@ -108,7 +107,7 @@ if [[ "$REPO_URL" =~ github\.com[:/]([^/]+)/([^/]+)(\.git)?$ ]]; then
         log_info "✅ Config file already updated (no placeholder found)"
         
         # Show current discussions URL
-        CURRENT_URL=$(grep "url:" "$CONFIG_FILE" | grep -v "^#" | head -1 | sed 's/.*url: *//')
+        CURRENT_URL=$(grep "^[[:space:]]*url:" "$CONFIG_FILE" | head -1 | sed 's/^[[:space:]]*url:[[:space:]]*//')
         if [[ -n "$CURRENT_URL" ]]; then
             log_info "Current discussions URL: $CURRENT_URL"
         fi
