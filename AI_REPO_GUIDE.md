@@ -111,6 +111,7 @@ bash install.sh
 | `.github/ISSUE_TEMPLATE/bug_report.md` | Structured bug reports |
 | `.github/ISSUE_TEMPLATE/feature_request.md` | Feature requests with acceptance criteria |
 | `.github/ISSUE_TEMPLATE/agent_init.md` | Initialize repo from template |
+| `.github/ISSUE_TEMPLATE/config.yml` | Issue template chooser (auto-updated by install.sh) |
 
 ### Deployment Configs
 | File | Platform | Purpose |

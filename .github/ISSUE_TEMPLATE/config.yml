@@ -4,6 +4,7 @@
 blank_issues_enabled: true
 contact_links:
   - name: Discussions
-    # IMPORTANT: Update this URL to point to your repository's discussions page.
-    url: https://github.com/YOUR_USERNAME/YOUR_REPOSITORY/discussions
+    # This URL is automatically updated by install.sh or can be manually updated with:
+    # ./scripts/update-issue-template.sh
+    url: https://github.com/mikejmckinney/dotfiles/discussions
     about: Use discussions for questions, ideas, and general conversation

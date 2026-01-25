@@ -170,9 +170,16 @@ A template repository for GitHub Codespaces that provides pre-configured AI agen
 
 1. Click "Use this template" on GitHub
 2. Create your new repository
-3. Replace all files containing `TEMPLATE_PLACEHOLDER`
-4. Fill in `.context/00_INDEX.md` with your project details
-5. Customize `ci-tests.yml` for your tech stack
+3. Clone the repository and run the auto-update script:
+   ```bash
+   ./scripts/update-issue-template.sh
+   ```
+   This automatically updates `.github/ISSUE_TEMPLATE/config.yml` with your repository's discussions URL.
+4. Replace all remaining files containing `TEMPLATE_PLACEHOLDER`
+5. Fill in `.context/00_INDEX.md` with your project details
+6. Customize `ci-tests.yml` for your tech stack
+
+**Note**: If you use this repository as Codespaces dotfiles, the issue template URL is automatically updated by `install.sh` when the Codespace starts.
 
 ### Option 3: Copy to Existing Repository
 

@@ -102,7 +102,51 @@ else
 fi
 
 # =============================================================================
-# 2. Copy AI Prompts to Workspace
+# 2. Update Issue Template Config
+# =============================================================================
+
+log_info "Updating issue template configuration..."
+
+CONFIG_FILE="$WORKSPACE/.github/ISSUE_TEMPLATE/config.yml"
+
+if [[ -f "$CONFIG_FILE" ]]; then
+    # Extract repository owner and name from git remote
+    if cd "$WORKSPACE" 2>/dev/null && git remote get-url origin &>/dev/null; then
+        REPO_URL=$(git remote get-url origin)
+        
+        # Parse owner/repo from various URL formats
+        if [[ "$REPO_URL" =~ github\.com[:/]([^/]+)/([^/]+)(\.git)?$ ]]; then
+            REPO_OWNER="${BASH_REMATCH[1]}"
+            REPO_NAME="${BASH_REMATCH[2]}"
+            REPO_NAME="${REPO_NAME%.git}"  # Remove .git suffix if present
+            
+            DISCUSSIONS_URL="https://github.com/$REPO_OWNER/$REPO_NAME/discussions"
+            
+            # Check if placeholder exists
+            if grep -q "YOUR_USERNAME/YOUR_REPOSITORY" "$CONFIG_FILE"; then
+                # Replace placeholder with actual URL
+                if sed -i.bak "s|https://github.com/YOUR_USERNAME/YOUR_REPOSITORY/discussions|$DISCUSSIONS_URL|g" "$CONFIG_FILE"; then
+                    rm -f "$CONFIG_FILE.bak"
+                    log_info "  ✓ Updated config.yml with: $DISCUSSIONS_URL"
+                else
+                    log_warn "  ⚠ Failed to update config.yml"
+                    rm -f "$CONFIG_FILE.bak"
+                fi
+            else
+                log_info "  ✓ config.yml already configured (no placeholder found)"
+            fi
+        else
+            log_warn "  ⚠ Could not parse repository URL: $REPO_URL"
+        fi
+    else
+        log_warn "  ⚠ Not in a git repository or no remote configured"
+    fi
+else
+    log_info "  ℹ config.yml not found in workspace, skipping"
+fi
+
+# =============================================================================
+# 3. Copy AI Prompts to Workspace
 # =============================================================================
 
 log_info "Setting up AI prompts..."
@@ -147,7 +191,7 @@ if [[ -f "$AGENTS_SRC" ]]; then
 fi
 
 # =============================================================================
-# 3. Verification
+# 4. Verification
 # =============================================================================
 
 log_info "Verifying installation..."

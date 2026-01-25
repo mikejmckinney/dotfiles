@@ -9,6 +9,7 @@
 | `verify-env.sh` | Check environment setup | `./scripts/verify-env.sh` |
 | `db-reset.sh` | Reset database to clean state | `./scripts/db-reset.sh` |
 | `setup.sh` | One-command project setup | `./scripts/setup.sh` |
+| `update-issue-template.sh` | Auto-update issue template config with repo URL | `./scripts/update-issue-template.sh` |
 
 ## Usage Guidelines
 
