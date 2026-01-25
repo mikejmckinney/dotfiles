@@ -106,6 +106,9 @@ echo "Checking docs structure..."
 
 DOCS_FILES=(
     "docs/README.md"
+    "docs/guides/agent-best-practices.md"
+    "docs/decisions/adr-template.md"
+    "docs/decisions/adr-001-context-pack-structure.md"
 )
 
 for file in "${DOCS_FILES[@]}"; do
@@ -255,6 +258,47 @@ for file in .github/workflows/*.yml; do
         else
             warn "$file may have YAML issues"
         fi
+    fi
+done
+
+echo ""
+
+# --- Issue Templates Check ---
+echo "Checking issue templates..."
+
+ISSUE_TEMPLATES=(
+    ".github/ISSUE_TEMPLATE/bug_report.md"
+    ".github/ISSUE_TEMPLATE/feature_request.md"
+    ".github/ISSUE_TEMPLATE/agent_init.md"
+    ".github/ISSUE_TEMPLATE/config.yml"
+)
+
+for file in "${ISSUE_TEMPLATES[@]}"; do
+    if [[ -f "$file" ]]; then
+        pass "$file exists"
+    else
+        fail "$file is missing"
+    fi
+done
+
+echo ""
+
+# --- Config Templates Check ---
+echo "Checking config templates..."
+
+CONFIG_FILES=(
+    "config/README.md"
+    "config/vercel.json.template"
+    "config/railway.toml.template"
+    "config/render.yaml.template"
+    ".pre-commit-config.yaml.template"
+)
+
+for file in "${CONFIG_FILES[@]}"; do
+    if [[ -f "$file" ]]; then
+        pass "$file exists"
+    else
+        fail "$file is missing"
     fi
 done
 

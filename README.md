@@ -12,7 +12,11 @@ A template repository for GitHub Codespaces that provides pre-configured AI agen
 - **Automatic Extension Installation** - Essential VS Code extensions installed on Codespace start
 - **Multi-Platform Support** - Works with Cursor, GitHub Copilot, Gemini Code Assist, and more
 - **CI/CD Templates** - Self-healing pipeline, keep-warm, and connectivity check workflows
-- **Verification Scripts** - Built-in testing to ensure template integrity
+- **Deployment Configs** - Templates for Vercel, Railway, and Render
+- **Issue Templates** - Bug reports, feature requests, and agent initialization
+- **Pre-commit Hooks** - Template for linting, secret detection, and commit standards
+- **ADR Templates** - Architecture Decision Record templates with examples
+- **Verification Scripts** - Built-in testing (58 checks) to ensure template integrity
 
 ## Repository Structure
 
@@ -47,6 +51,14 @@ A template repository for GitHub Codespaces that provides pre-configured AI agen
 ├── .gemini/
 │   └── styleguide.md             # Gemini Code Assist style guide
 │
+├── config/                       # Deployment config templates
+│   ├── README.md                 # Platform recommendations
+│   ├── vercel.json.template      # Vercel frontend config
+│   ├── railway.toml.template     # Railway backend config
+│   └── render.yaml.template      # Render blueprint config
+│
+├── .pre-commit-config.yaml.template  # Pre-commit hooks template
+│
 └── .github/
     ├── copilot-instructions.md   # GitHub Copilot instructions (auto-read)
     ├── agents/
@@ -54,6 +66,11 @@ A template repository for GitHub Codespaces that provides pre-configured AI agen
     ├── prompts/
     │   ├── copilot-onboarding.md # Guide for customizing copilot-instructions.md
     │   └── repo-onboarding.md    # Comprehensive repo onboarding prompt
+    ├── ISSUE_TEMPLATE/           # Issue templates
+    │   ├── bug_report.md         # Bug report template
+    │   ├── feature_request.md    # Feature request template
+    │   ├── agent_init.md         # Agent initialization task
+    │   └── config.yml            # Template chooser config
     └── workflows/
         ├── auto-resolve-on-merge.yml  # Auto-resolve PR comments
         ├── ci-tests.yml               # CI pipeline (customize for project)
@@ -89,6 +106,29 @@ A template repository for GitHub Codespaces that provides pre-configured AI agen
 |------|---------|
 | `.github/prompts/copilot-onboarding.md` | Guide for customizing copilot-instructions.md |
 | `.github/prompts/repo-onboarding.md` | Comprehensive onboarding workflow |
+
+### Issue Templates
+
+| File | Purpose |
+|------|---------|
+| `.github/ISSUE_TEMPLATE/bug_report.md` | Structured bug reports |
+| `.github/ISSUE_TEMPLATE/feature_request.md` | Feature requests with acceptance criteria |
+| `.github/ISSUE_TEMPLATE/agent_init.md` | Initialize repo from template (agent task) |
+
+### Deployment Configs
+
+| File | Platform | Purpose |
+|------|----------|---------|
+| `config/vercel.json.template` | Vercel | Frontend, serverless functions |
+| `config/railway.toml.template` | Railway | Backend services |
+| `config/render.yaml.template` | Render | Full-stack blueprints |
+
+### Development Tools
+
+| File | Purpose |
+|------|---------|
+| `.pre-commit-config.yaml.template` | Pre-commit hooks for linting, secrets, formatting |
+| `docs/decisions/adr-template.md` | Template for Architecture Decision Records |
 
 ## Included VS Code Extensions
 

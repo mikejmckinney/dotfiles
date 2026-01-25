@@ -1,0 +1,8 @@
+# Issue template chooser configuration
+# Docs: https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository
+
+blank_issues_enabled: true
+contact_links:
+  - name: Discussions
+    url: https://github.com/mikejmckinney/dotfiles/discussions
+    about: Use discussions for questions, ideas, and general conversation

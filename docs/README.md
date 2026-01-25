@@ -78,6 +78,12 @@ What are the positive and negative consequences?
 
 ## Current Documentation
 
-<!-- Add links to documentation as it's created -->
+### Guides
+- [Agent Best Practices](guides/agent-best-practices.md) - Token limits, state conflicts, secrets, session handoff
 
-No project documentation yet. Add files to the appropriate subdirectory.
+### Decisions (ADRs)
+- [ADR-001: Context Pack Structure](decisions/adr-001-context-pack-structure.md) - Why we use `.context/` for LLM memory
+- [ADR Template](decisions/adr-template.md) - Template for new architecture decisions
+
+### Reference
+- Add specification documents as needed

@@ -1,2 +1,9 @@
-# Placeholder to keep directory in git
-# Add Architecture Decision Records (ADRs) here
+# Architecture Decision Records (ADRs)
+# 
+# See adr-template.md for the template
+# See adr-001-context-pack-structure.md for an example
+#
+# To create a new ADR:
+# 1. Copy adr-template.md
+# 2. Rename to adr-NNN-short-title.md
+# 3. Fill in the sections

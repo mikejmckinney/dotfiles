@@ -100,7 +100,28 @@ bash install.sh
 | File | Purpose |
 |------|---------|
 | `install.sh` | Runs on Codespace start; installs extensions, copies prompts |
-| `test.sh` | Verifies template integrity |
+| `test.sh` | Verifies template integrity (58 checks) |
+
+### Issue Templates
+| File | Purpose |
+|------|---------|
+| `.github/ISSUE_TEMPLATE/bug_report.md` | Structured bug reports |
+| `.github/ISSUE_TEMPLATE/feature_request.md` | Feature requests with acceptance criteria |
+| `.github/ISSUE_TEMPLATE/agent_init.md` | Initialize repo from template |
+
+### Deployment Configs
+| File | Platform | Purpose |
+|------|----------|---------|
+| `config/vercel.json.template` | Vercel | Frontend, serverless |
+| `config/railway.toml.template` | Railway | Backend services |
+| `config/render.yaml.template` | Render | Full-stack blueprint |
+
+### Development Tools
+| File | Purpose |
+|------|---------|
+| `.pre-commit-config.yaml.template` | Pre-commit hooks (linting, secrets) |
+| `docs/decisions/adr-template.md` | Architecture Decision Record template |
+| `docs/guides/agent-best-practices.md` | Token limits, session handoff, secrets |
 
 ### CI/CD Workflows
 | File | Purpose |
@@ -140,7 +161,7 @@ When information conflicts, use this priority:
 ## Verification Commands
 
 ```bash
-# Check all required files exist
+# Check all required files exist (58 checks)
 ./test.sh
 
 # Validate shell scripts (if shellcheck installed)
@@ -151,6 +172,9 @@ find . -name "*.md" -not -path "./.git/*" | head -20
 
 # Verify context pack structure
 ls -la .context/
+
+# Verify config templates
+ls -la config/
 ```
 
 ## Using This Template
