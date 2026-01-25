@@ -9,6 +9,7 @@
 | `vercel.json.template` | Vercel | Frontend deployment, serverless functions |
 | `railway.toml.template` | Railway | Backend services, databases |
 | `render.yaml.template` | Render | Full-stack deployment blueprint |
+| `docker-compose.yml.template` | Docker | Local development environment |
 
 ## Usage
 

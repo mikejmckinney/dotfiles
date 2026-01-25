@@ -17,24 +17,29 @@ The `.context/` directory contains **canonical project truth**.
 
 ```
 .context/
-├── 00_INDEX.md          # This file - start here
-├── roadmap.md           # Phase-by-phase plan with acceptance criteria
+├── 00_INDEX.md          # This file - start here (The Map)
+├── roadmap.md           # Phase-by-phase plan with acceptance criteria (The Plan)
 ├── rules/               # Immutable constraints and domain rules
 │   └── domain_*.md      # Domain-specific rules (e.g., domain_auth.md)
+├── sessions/            # Session history to prevent repeating mistakes
+│   └── latest_summary.md # Most recent session summary
 ├── state/               # Mutable progress tracking
-│   └── active_task.md   # Current task being worked on
+│   └── active_task.md   # Current task being worked on (The Cursor)
 └── vision/              # Design artifacts (mockups, diagrams)
     ├── mockups/         # UI/UX mockups and wireframes
-    └── architecture/    # System architecture diagrams
+    └── architecture/    # System architecture diagrams (use Mermaid.js)
 ```
 
-## Quick Start for Agents
+## Quick Start for Agents (Lazy Load Pattern)
 
-1. Read this file first
-2. Read `roadmap.md` to understand project phases
-3. Check `state/active_task.md` for current work
-4. Reference `rules/` for constraints that must not be violated
-5. Reference `vision/` for design guidance
+1. Read this file first (The Map)
+2. Check `state/active_task.md` for current work (The Cursor)
+3. Read `sessions/latest_summary.md` for what happened last session
+4. Read `roadmap.md` to understand project phases (The Plan)
+5. Reference `rules/` ONLY when making changes to those domains
+6. Reference `vision/` for design guidance
+
+**Note:** Don't read everything at once. This index tells you what exists; load files on-demand to save tokens.
 
 ## Project Summary
 

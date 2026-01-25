@@ -1,0 +1,66 @@
+# Session History
+
+> **Purpose**: Track what happened in previous coding sessions to prevent repeating mistakes and enable cognitive handoff.
+
+## How to Use
+
+After each significant coding session, create a brief summary file:
+
+```
+sessions/
+├── README.md              # This file
+├── latest_summary.md      # Always points to/contains the most recent session
+├── 2025-01-25_auth.md     # Session: Implemented authentication
+├── 2025-01-24_setup.md    # Session: Initial project setup
+└── ...
+```
+
+## Session Summary Template
+
+When ending a session, create or update a summary:
+
+```markdown
+# Session: [Date] - [Brief Title]
+
+## What Was Accomplished
+- [Completed item 1]
+- [Completed item 2]
+
+## Key Decisions Made
+- [Decision 1]: [Rationale]
+- [Decision 2]: [Rationale]
+
+## Problems Encountered
+- [Problem]: [How it was solved]
+
+## What Didn't Work
+- [Failed approach]: [Why it failed]
+
+## Next Session Should
+- [ ] [First priority]
+- [ ] [Second priority]
+
+## Files Modified
+- `path/to/file` - [What changed]
+```
+
+## Why This Matters
+
+1. **Prevents Repeated Mistakes**: New sessions can see what approaches failed
+2. **Captures Decisions**: Rationale is preserved, not just outcomes
+3. **Enables Handoff**: Different agents/developers can pick up where you left off
+4. **Reduces Re-exploration**: No need to re-discover what was already learned
+
+## The "Latest Summary" Pattern
+
+Always maintain `latest_summary.md` with the most recent session info. Agents should:
+1. Read `latest_summary.md` when resuming work
+2. Update it when ending a session
+3. Optionally archive to dated file for history
+
+## Token Efficiency
+
+- Keep summaries brief (< 100 lines)
+- Focus on decisions and blockers, not play-by-play
+- Archive old sessions to prevent context bloat
+- Agents should only read recent sessions unless investigating a specific issue

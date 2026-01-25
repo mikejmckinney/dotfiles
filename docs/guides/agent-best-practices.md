@@ -10,6 +10,25 @@ AI models have limited context windows (measured in tokens). Large codebases or 
 - Truncated context (agent misses important information)
 - Degraded performance (too much irrelevant context)
 - Higher costs (more tokens = more cost)
+- "Lost in the Middle" problem where content in the middle of long documents is poorly attended to
+
+### The 200-Line Rule
+
+**If a single instruction file exceeds ~200 lines, split it into sub-modules.**
+
+This prevents the "Lost in the Middle" attention issue where LLMs struggle to attend to content in the middle of long documents. Long files should be broken into focused sub-files that can be loaded on-demand.
+
+Example:
+```
+# Instead of one 500-line rules file:
+.context/rules/all_rules.md (500 lines) ❌
+
+# Split into focused modules:
+.context/rules/domain_auth.md (100 lines) ✓
+.context/rules/domain_api.md (120 lines) ✓
+.context/rules/domain_ui.md (80 lines) ✓
+.context/rules/coding_standards.md (90 lines) ✓
+```
 
 ### Mitigations
 
@@ -193,13 +212,18 @@ When an agent session ends (or a new agent takes over), follow this protocol:
    - Any blockers or open questions
    - Files that were modified
 
-2. **Commit work in progress**:
+2. **Update `sessions/latest_summary.md`** with:
+   - Key decisions made and their rationale
+   - What didn't work (to prevent repeating mistakes)
+   - Next session recommendations
+
+3. **Commit work in progress**:
    ```bash
    git add .
    git commit -m "WIP: [task description] - session handoff"
    ```
 
-3. **Leave clear next steps**:
+4. **Leave clear next steps**:
    ```markdown
    ## Next Session Should
    1. Run tests to verify current state: `npm test`
@@ -207,22 +231,50 @@ When an agent session ends (or a new agent takes over), follow this protocol:
    3. Address the TODO in src/auth.ts:42
    ```
 
-### Starting a Session
+### Starting a Session (The Onboarding Protocol)
 
-1. **Read context in order**:
-   1. `AGENTS.md` (instructions)
-   2. `AI_REPO_GUIDE.md` (quick reference)
-   3. `.context/00_INDEX.md` (project overview)
-   4. `.context/state/active_task.md` (current work)
+Follow these steps in order:
 
-2. **Verify state**:
+1. **Read the current task**:
+   ```
+   .context/state/active_task.md
+   ```
+   This tells you the immediate goal.
+
+2. **Read the context index**:
+   ```
+   .context/00_INDEX.md
+   ```
+   This tells you where to find relevant rules/constraints.
+
+3. **Check session history** (optional but recommended):
+   ```
+   .context/sessions/latest_summary.md
+   ```
+   This tells you what was tried, what worked, what didn't.
+
+4. **Verify environment stability**:
    ```bash
    git status
-   ./test.sh  # or npm test
+   ./scripts/verify-env.sh  # or npm run verify
    ```
 
-3. **Acknowledge handoff**:
-   Update `active_task.md` with your session start.
+5. **Check recent decisions** (if available):
+   - Skim the last closed PR
+   - Review `sessions/latest_summary.md`
+
+6. **Report readiness** (The Report Step):
+   
+   Before proceeding, output a status report:
+   ```
+   "I have reviewed the context.
+   - Current task: [Task Name from active_task.md]
+   - Environment: [Stable/Unstable based on verify-env output]
+   - Last session: [Brief summary from sessions/latest_summary.md]
+   - Ready for instructions."
+   ```
+   
+   This confirms context was loaded correctly and prevents silent failures.
 
 ---
 

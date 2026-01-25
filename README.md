@@ -3,6 +3,11 @@
 
 # AI-Ready Repository Template
 
+<!-- Agent Status Badge - Update phase as project progresses -->
+<!-- Options: Phase 0: Design | Phase 1: Foundation | Phase 2: Development | Phase 3: Polish | Phase 4: Maintenance -->
+![Agent Status](https://img.shields.io/badge/Agent%20Status-Phase%200%3A%20Design-blue)
+![Last Updated](https://img.shields.io/badge/Last%20Updated-January%202025-green)
+
 A template repository for GitHub Codespaces that provides pre-configured AI agent prompts, context management for LLM memory, and automatic development environment setup. Use this as a starting point for new repositories or link it to your Codespaces settings.
 
 ## Features
@@ -98,6 +103,7 @@ A template repository for GitHub Codespaces that provides pre-configured AI agen
 | `.context/roadmap.md` | Phase-by-phase plan with acceptance criteria |
 | `.context/rules/` | Immutable constraints (domain rules) |
 | `.context/state/active_task.md` | Current task for cognitive handoff |
+| `.context/sessions/` | Session history to prevent repeating mistakes |
 | `.context/vision/` | Mockups and architecture diagrams |
 
 ### Prompts (user-triggered)
@@ -199,11 +205,15 @@ Please:
 Use this prompt to continue work on an existing repo:
 
 ```markdown
-Read README.md, AI_REPO_GUIDE.md, AGENTS.md, and anything in docs/ or .context/
-Check .context/state/active_task.md for current work
-Skim closed PR discussions for decisions/tradeoffs
-Continue with the next step
+1. Read .context/state/active_task.md to understand the immediate goal.
+2. Read .context/00_INDEX.md to locate relevant rules/constraints.
+3. Check: Run `git status` and `./scripts/verify-env.sh` to ensure stability.
+4. Skim: Review .context/sessions/latest_summary.md for recent decisions.
+5. Report: "I have reviewed the context. Current task is [Task Name]. 
+   Environment is [Stable/Unstable]. Ready for instructions."
 ```
+
+This structured protocol ensures context is loaded correctly before proceeding.
 
 ## Verification
 

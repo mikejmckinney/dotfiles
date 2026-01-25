@@ -71,6 +71,8 @@ CONTEXT_FILES=(
     ".context/00_INDEX.md"
     ".context/roadmap.md"
     ".context/rules/README.md"
+    ".context/sessions/README.md"
+    ".context/sessions/latest_summary.md"
     ".context/state/active_task.md"
     ".context/vision/README.md"
 )
@@ -86,6 +88,7 @@ done
 # Check context directories exist
 CONTEXT_DIRS=(
     ".context/rules"
+    ".context/sessions"
     ".context/state"
     ".context/vision/mockups"
     ".context/vision/architecture"
@@ -291,7 +294,9 @@ CONFIG_FILES=(
     "config/vercel.json.template"
     "config/railway.toml.template"
     "config/render.yaml.template"
+    "config/docker-compose.yml.template"
     ".pre-commit-config.yaml.template"
+    ".cursorignore"
 )
 
 for file in "${CONFIG_FILES[@]}"; do
@@ -299,6 +304,35 @@ for file in "${CONFIG_FILES[@]}"; do
         pass "$file exists"
     else
         fail "$file is missing"
+    fi
+done
+
+echo ""
+
+# --- Scripts Check ---
+echo "Checking scripts..."
+
+SCRIPT_FILES=(
+    "scripts/README.md"
+    "scripts/setup.sh"
+    "scripts/verify-env.sh"
+    "scripts/db-reset.sh"
+)
+
+for file in "${SCRIPT_FILES[@]}"; do
+    if [[ -f "$file" ]]; then
+        pass "$file exists"
+    else
+        fail "$file is missing"
+    fi
+done
+
+# Check scripts are executable
+for script in scripts/*.sh; do
+    if [[ -x "$script" ]]; then
+        pass "$script is executable"
+    else
+        warn "$script is not executable"
     fi
 done
 
