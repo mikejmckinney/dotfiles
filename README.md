@@ -10,6 +10,8 @@
 
 A template repository for GitHub Codespaces that provides pre-configured AI agent prompts, context management for LLM memory, and automatic development environment setup. Use this as a starting point for new repositories or link it to your Codespaces settings.
 
+> **For AI Agents**: See `AI_REPO_GUIDE.md` for a concise reference optimized for agent consumption.
+
 ## Features
 
 - **AI Agent Prompts** - Pre-configured prompts for onboarding AI assistants to any codebase

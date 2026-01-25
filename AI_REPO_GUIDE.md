@@ -5,6 +5,8 @@
 
 > **Purpose**: Canonical reference for AI agents working with this template repository.  
 > **Last verified**: 2025-01-25
+>
+> **Note**: This file is for agents. For human documentation, see `README.md`.
 
 ## Overview
 

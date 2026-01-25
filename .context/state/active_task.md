@@ -2,61 +2,69 @@
 
 # Active Task
 
-> **Purpose**: Track the current task being worked on. Update this file when switching tasks to enable cognitive handoff between agent sessions.
+> **Purpose**: The SINGLE source of truth for the current objective. Track what you're working on and where you left off.
+>
+> **Note**: For session history and lessons learned, see `.context/sessions/latest_summary.md`
 
 ## Current Task
 
 **Task ID**: N/A  
-**Description**: No active task  
-**Assigned To**: N/A  
+**Title**: No active task  
 **Started**: N/A  
 **Status**: [ ] Not Started / [ ] In Progress / [ ] Blocked / [ ] Complete
 
-## Context
+## Objective
 
-<!-- Provide enough context for a new agent to pick up where you left off -->
+<!-- One sentence: what are we trying to accomplish? -->
 
-### What we're trying to accomplish
-[Description of the goal]
+[No objective defined]
 
-### What's been done
-- [Completed step 1]
-- [Completed step 2]
+## Progress
 
-### What's next
-- [ ] [Next step 1]
-- [ ] [Next step 2]
+### Completed
+- [ ] Nothing yet
 
-### Blockers / Open Questions
-- [Any blockers or questions]
+### In Progress
+- [ ] Nothing yet
+
+### Remaining
+- [ ] Define the task objective
+- [ ] Break down into steps
 
 ## Files Being Modified
 
 | File | Purpose of Changes |
 |------|-------------------|
-| `path/to/file` | Description |
+| N/A | N/A |
 
-## Verification Steps
+## Blockers / Open Questions
+
+<!-- List anything blocking progress -->
+
+None.
+
+## Verification
 
 When this task is complete, verify by:
+
 ```bash
-# Commands to run
+# Add verification commands here
+./test.sh
 ```
 
-## Session Notes
+## Context References
 
-<!-- Add notes from each working session -->
+<!-- Point to relevant context files for this task -->
 
-### Session: YYYY-MM-DD
-- Agent: [Agent name/type]
-- Accomplished: [What was done]
-- Next session should: [Recommendations]
+- Rules: `.context/rules/` (if modifying constrained areas)
+- Design: `.context/vision/` (if implementing UI/architecture)
+- Last session: `.context/sessions/latest_summary.md`
 
 ---
 
 ## How to Use This File
 
-1. **Starting work**: Update task details and status to "In Progress"
-2. **During work**: Update "What's been done" and "Files Being Modified"
-3. **Pausing/ending session**: Update "Session Notes" with handoff context
-4. **Completing task**: Mark complete, move to history (or archive), start new task
+1. **Starting a task**: Fill in Task ID, Title, Objective, and initial Remaining items
+2. **During work**: Move items from Remaining → In Progress → Completed
+3. **Switching tasks**: Archive current task (copy to `sessions/`) and start fresh
+4. **Ending session**: Update progress, then update `sessions/latest_summary.md` with lessons learned
