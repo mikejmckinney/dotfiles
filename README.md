@@ -240,7 +240,7 @@ Checking required files...
 ========================================
 Summary
 ========================================
-Passed: X
+Passed: 74
 Warnings: 0
 Failed: 0
 

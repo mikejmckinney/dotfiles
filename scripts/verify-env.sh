@@ -128,7 +128,7 @@ echo ""
 
 # --- Template Verification ---
 echo "Checking for template placeholders..."
-PLACEHOLDER_COUNT=$(grep -rl "TEMPLATE_PLACEHOLDER" . --include="*.md" 2>/dev/null | wc -l | tr -d ' ')
+PLACEHOLDER_COUNT=$(grep -rl "TEMPLATE_PLACEHOLDER" . --exclude-dir={.git,node_modules,venv,.venv,__pycache__} 2>/dev/null | wc -l | tr -d ' ')
 if [[ "$PLACEHOLDER_COUNT" -gt 0 ]]; then
     warn "$PLACEHOLDER_COUNT files still contain TEMPLATE_PLACEHOLDER"
 else

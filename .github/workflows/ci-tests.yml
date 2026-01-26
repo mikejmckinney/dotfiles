@@ -130,6 +130,7 @@ jobs:
           
           # Verify template files exist (useful for template repo itself)
           if [ -f "./test.sh" ]; then
+            set -o pipefail
             ./test.sh 2>&1 | tee test-output.log
           else
             echo "No test.sh found - add project-specific tests"
@@ -193,6 +194,8 @@ jobs:
       - name: Tag human on retry budget exceeded
         if: failure() && steps.retry_check.outputs.exceeded == 'true'
         uses: actions/github-script@v7
+        env:
+          MAX_RETRIES: ${{ env.MAX_RETRIES }}
         with:
           script: |
             const title = '🚨 CI Retry Budget Exceeded';
@@ -232,14 +235,25 @@ jobs:
                 body: `Another failure at ${new Date().toISOString()}\n\n[View run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})`
               });
             } else {
-              // Create new issue
-              await github.rest.issues.create({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                title: title,
-                body: body,
-                labels: ['ci-failure', 'needs-human']
-              });
+              // Create new issue (labels are optional - will be ignored if they don't exist)
+              try {
+                await github.rest.issues.create({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  title: title,
+                  body: body,
+                  labels: ['ci-failure', 'needs-human']
+                });
+              } catch (labelError) {
+                // Retry without labels if they don't exist
+                console.log('Labels not found, creating issue without labels');
+                await github.rest.issues.create({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  title: title,
+                  body: body
+                });
+              }
             }
             
             // Hard fail

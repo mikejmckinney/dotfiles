@@ -27,6 +27,46 @@ echo "========================================"
 echo "Project Setup"
 echo "========================================"
 
+# --- Step 0: Auto-detect repo and update config ---
+log_step "Auto-detecting repository"
+
+# Try to detect the GitHub repository from git remote
+if command -v git &> /dev/null && git rev-parse --is-inside-work-tree &> /dev/null; then
+    REMOTE_URL=$(git remote get-url origin 2>/dev/null || echo "")
+    
+    if [[ -n "$REMOTE_URL" ]]; then
+        # Extract owner/repo from various URL formats
+        # SSH: git@github.com:owner/repo.git
+        # HTTPS: https://github.com/owner/repo.git
+        if [[ "$REMOTE_URL" =~ github\.com[:/]([^/]+)/([^/.]+)(\.git)?$ ]]; then
+            REPO_OWNER="${BASH_REMATCH[1]}"
+            REPO_NAME="${BASH_REMATCH[2]}"
+            FULL_REPO="${REPO_OWNER}/${REPO_NAME}"
+            log_info "Detected repository: $FULL_REPO"
+            
+            # Update issue template config with correct discussions URL
+            CONFIG_FILE=".github/ISSUE_TEMPLATE/config.yml"
+            if [[ -f "$CONFIG_FILE" ]]; then
+                if grep -q "PLEASE_UPDATE_THIS/URL" "$CONFIG_FILE"; then
+                    sed -i "s|PLEASE_UPDATE_THIS/URL|${REPO_OWNER}/${REPO_NAME}|g" "$CONFIG_FILE"
+                    log_info "Updated $CONFIG_FILE with repository URL"
+                elif grep -q "YOUR_USERNAME/YOUR_REPOSITORY" "$CONFIG_FILE"; then
+                    sed -i "s|YOUR_USERNAME/YOUR_REPOSITORY|${REPO_OWNER}/${REPO_NAME}|g" "$CONFIG_FILE"
+                    log_info "Updated $CONFIG_FILE with repository URL"
+                else
+                    log_info "$CONFIG_FILE already configured"
+                fi
+            fi
+        else
+            log_warn "Could not parse repository from remote URL: $REMOTE_URL"
+        fi
+    else
+        log_warn "No git remote configured, skipping repo auto-detection"
+    fi
+else
+    log_warn "Not a git repository, skipping repo auto-detection"
+fi
+
 # --- Step 1: Environment File ---
 log_step "Setting up environment variables"
 
