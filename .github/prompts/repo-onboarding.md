@@ -111,6 +111,15 @@ If `/AI_REPO_GUIDE.md` does NOT exist, create it with:
 
 If it exists, verify accuracy and update if needed.
 
+## Step 1.6: Update Template Placeholders
+
+If this repo was created from a template, update placeholder values:
+
+1. Run `git remote -v` to get the repository owner/name
+2. If `.github/ISSUE_TEMPLATE/config.yml` contains `PLEASE_UPDATE_THIS/URL`:
+   - Replace with actual `owner/repo` (e.g., `myorg/myproject`)
+3. Search for any remaining `TEMPLATE_PLACEHOLDER` markers and replace with project-specific content
+
 ---
 
 # Phase 2: Clarify the Task

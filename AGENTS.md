@@ -7,6 +7,8 @@
 - Otherwise:
   - If README.md or AI_REPO_GUIDE.md contains `TEMPLATE_PLACEHOLDER`, treat them as stubs:
     replace README.md with project-specific README, and regenerate AI_REPO_GUIDE.md from the repo's real assets (./.context/**, ./docs/**, source).
+  - If `.github/ISSUE_TEMPLATE/config.yml` contains `PLEASE_UPDATE_THIS/URL`:
+    replace it with the actual repository path (e.g., `owner/repo`) detected from `git remote -v`.
 
 ## Truth hierarchy
 When information conflicts, use this priority order:

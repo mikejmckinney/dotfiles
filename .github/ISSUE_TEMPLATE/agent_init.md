@@ -23,6 +23,7 @@ Use this priority order when information conflicts:
 - [ ] Verify `.github/prompts/repo-onboarding.md` exists
 - [ ] Verify `.github/prompts/copilot-onboarding.md` exists
 - [ ] Scan and list all files containing `TEMPLATE_PLACEHOLDER`
+- [ ] Run `git remote -v` to detect repository owner/name
 
 ## Initialization Steps
 
@@ -60,7 +61,13 @@ Create a new AI_REPO_GUIDE.md for THIS repo (not the template), including:
 - Build/test/lint commands
 - Next steps
 
-### 5. Customize CI Pipeline
+### 5. Update Issue Template Config
+
+Update `.github/ISSUE_TEMPLATE/config.yml`:
+- Replace `PLEASE_UPDATE_THIS/URL` with the actual `owner/repo` from `git remote -v`
+- This enables the "Discussions" link on the New Issue page
+
+### 6. Customize CI Pipeline
 
 Update `.github/workflows/ci-tests.yml`:
 - Add project-specific build commands
@@ -68,14 +75,14 @@ Update `.github/workflows/ci-tests.yml`:
 - Add lint commands
 - Remove placeholder comments
 
-### 6. Fill in Context Pack
+### 7. Fill in Context Pack
 
 Update `.context/` files:
 - `00_INDEX.md` — project summary and key decisions
 - `roadmap.md` — define project phases
 - `state/task_*.md` — current work (if any)
 
-### 7. Configure Secrets (if needed)
+### 8. Configure Secrets (if needed)
 
 Document any required repository secrets:
 - `BACKEND_URL` for keep-warm workflow
