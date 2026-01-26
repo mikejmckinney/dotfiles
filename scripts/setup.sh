@@ -45,13 +45,14 @@ if command -v git &> /dev/null && git rev-parse --is-inside-work-tree &> /dev/nu
             log_info "Detected repository: $FULL_REPO"
             
             # Update issue template config with correct discussions URL
+            # Note: Using temp file for portability (BSD sed on macOS differs from GNU sed)
             CONFIG_FILE=".github/ISSUE_TEMPLATE/config.yml"
             if [[ -f "$CONFIG_FILE" ]]; then
                 if grep -q "PLEASE_UPDATE_THIS/URL" "$CONFIG_FILE"; then
-                    sed -i "s|PLEASE_UPDATE_THIS/URL|${REPO_OWNER}/${REPO_NAME}|g" "$CONFIG_FILE"
+                    sed "s|PLEASE_UPDATE_THIS/URL|${REPO_OWNER}/${REPO_NAME}|g" "$CONFIG_FILE" > "${CONFIG_FILE}.tmp" && mv "${CONFIG_FILE}.tmp" "$CONFIG_FILE"
                     log_info "Updated $CONFIG_FILE with repository URL"
                 elif grep -q "YOUR_USERNAME/YOUR_REPOSITORY" "$CONFIG_FILE"; then
-                    sed -i "s|YOUR_USERNAME/YOUR_REPOSITORY|${REPO_OWNER}/${REPO_NAME}|g" "$CONFIG_FILE"
+                    sed "s|YOUR_USERNAME/YOUR_REPOSITORY|${REPO_OWNER}/${REPO_NAME}|g" "$CONFIG_FILE" > "${CONFIG_FILE}.tmp" && mv "${CONFIG_FILE}.tmp" "$CONFIG_FILE"
                     log_info "Updated $CONFIG_FILE with repository URL"
                 else
                     log_info "$CONFIG_FILE already configured"

@@ -141,12 +141,23 @@ jobs:
                 body: `Another failure detected at ${new Date().toISOString()}\n\n[View run](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})`
               });
             } else {
-              // Create new issue
-              await github.rest.issues.create({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                title: title,
-                body: body,
-                labels: ['infrastructure', 'bug']
-              });
+              // Create new issue (labels are optional - will be ignored if they don't exist)
+              try {
+                await github.rest.issues.create({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  title: title,
+                  body: body,
+                  labels: ['infrastructure', 'bug']
+                });
+              } catch (labelError) {
+                // Retry without labels if they don't exist
+                console.log('Labels not found, creating issue without labels');
+                await github.rest.issues.create({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  title: title,
+                  body: body
+                });
+              }
             }
