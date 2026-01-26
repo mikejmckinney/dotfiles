@@ -64,6 +64,103 @@ done
 
 echo ""
 
+# --- Context Pack Check ---
+echo "Checking context pack structure..."
+
+CONTEXT_FILES=(
+    ".context/00_INDEX.md"
+    ".context/roadmap.md"
+    ".context/rules/README.md"
+    ".context/sessions/README.md"
+    ".context/sessions/latest_summary.md"
+    ".context/state/README.md"
+    ".context/state/_active.md"
+    ".context/state/task_template.md"
+    ".context/vision/README.md"
+)
+
+for file in "${CONTEXT_FILES[@]}"; do
+    if [[ -f "$file" ]]; then
+        pass "$file exists"
+    else
+        fail "$file is missing"
+    fi
+done
+
+# Check context directories exist
+CONTEXT_DIRS=(
+    ".context/rules"
+    ".context/sessions"
+    ".context/state"
+    ".context/vision/mockups"
+    ".context/vision/architecture"
+)
+
+for dir in "${CONTEXT_DIRS[@]}"; do
+    if [[ -d "$dir" ]]; then
+        pass "$dir directory exists"
+    else
+        fail "$dir directory is missing"
+    fi
+done
+
+echo ""
+
+# --- Docs Structure Check ---
+echo "Checking docs structure..."
+
+DOCS_FILES=(
+    "docs/README.md"
+    "docs/guides/agent-best-practices.md"
+    "docs/guides/context-files-explained.md"
+    "docs/decisions/adr-template.md"
+    "docs/decisions/adr-001-context-pack-structure.md"
+)
+
+for file in "${DOCS_FILES[@]}"; do
+    if [[ -f "$file" ]]; then
+        pass "$file exists"
+    else
+        fail "$file is missing"
+    fi
+done
+
+DOCS_DIRS=(
+    "docs/reference"
+    "docs/guides"
+    "docs/decisions"
+)
+
+for dir in "${DOCS_DIRS[@]}"; do
+    if [[ -d "$dir" ]]; then
+        pass "$dir directory exists"
+    else
+        fail "$dir directory is missing"
+    fi
+done
+
+echo ""
+
+# --- Workflow Files Check ---
+echo "Checking workflow files..."
+
+WORKFLOW_FILES=(
+    ".github/workflows/auto-resolve-on-merge.yml"
+    ".github/workflows/ci-tests.yml"
+    ".github/workflows/keep-warm.yml"
+    ".github/workflows/validate-connections.yml"
+)
+
+for file in "${WORKFLOW_FILES[@]}"; do
+    if [[ -f "$file" ]]; then
+        pass "$file exists"
+    else
+        fail "$file is missing"
+    fi
+done
+
+echo ""
+
 # --- File Content Checks ---
 echo "Checking file contents..."
 
@@ -72,6 +169,20 @@ if grep -q "AI_REPO_GUIDE.md" AGENTS.md 2>/dev/null; then
     pass "AGENTS.md references AI_REPO_GUIDE.md"
 else
     fail "AGENTS.md should reference AI_REPO_GUIDE.md"
+fi
+
+# Check AGENTS.md has truth hierarchy
+if grep -q "Truth hierarchy" AGENTS.md 2>/dev/null; then
+    pass "AGENTS.md has truth hierarchy section"
+else
+    warn "AGENTS.md missing truth hierarchy section"
+fi
+
+# Check AGENTS.md has testing requirements
+if grep -q "Testing requirements" AGENTS.md 2>/dev/null; then
+    pass "AGENTS.md has testing requirements section"
+else
+    warn "AGENTS.md missing testing requirements section"
 fi
 
 # Check install.sh is executable or has shebang
@@ -101,6 +212,13 @@ else
     pass "judge.agent.md is clean of artifacts"
 fi
 
+# Check context 00_INDEX.md has truth hierarchy
+if grep -q "priority" .context/00_INDEX.md 2>/dev/null; then
+    pass ".context/00_INDEX.md has priority information"
+else
+    warn ".context/00_INDEX.md missing priority information"
+fi
+
 echo ""
 
 # --- Script Syntax Check ---
@@ -124,11 +242,101 @@ echo ""
 echo "Checking markdown structure..."
 
 # Check that key files have headers
-for file in AI_REPO_GUIDE.md AGENTS.md README.md; do
-    if head -5 "$file" | grep -q "^#"; then
+for file in AI_REPO_GUIDE.md AGENTS.md README.md .context/00_INDEX.md; do
+    if [[ -f "$file" ]] && head -5 "$file" | grep -q "^#"; then
         pass "$file has a header"
     else
         warn "$file missing header"
+    fi
+done
+
+echo ""
+
+# --- YAML Syntax Check ---
+echo "Checking workflow YAML syntax..."
+
+# Basic YAML check (just verifies files aren't completely broken)
+for file in .github/workflows/*.yml; do
+    if [[ -f "$file" ]]; then
+        # Check for common YAML issues
+        if head -1 "$file" | grep -qE "^(name:|#)"; then
+            pass "$file has valid YAML header"
+        else
+            warn "$file may have YAML issues"
+        fi
+    fi
+done
+
+echo ""
+
+# --- Issue Templates Check ---
+echo "Checking issue templates..."
+
+ISSUE_TEMPLATES=(
+    ".github/ISSUE_TEMPLATE/bug_report.md"
+    ".github/ISSUE_TEMPLATE/feature_request.md"
+    ".github/ISSUE_TEMPLATE/agent_init.md"
+    ".github/ISSUE_TEMPLATE/config.yml"
+)
+
+for file in "${ISSUE_TEMPLATES[@]}"; do
+    if [[ -f "$file" ]]; then
+        pass "$file exists"
+    else
+        fail "$file is missing"
+    fi
+done
+
+echo ""
+
+# --- Config Templates Check ---
+echo "Checking config templates..."
+
+CONFIG_FILES=(
+    "config/README.md"
+    "config/vercel.json.template"
+    "config/railway.toml.template"
+    "config/render.yaml.template"
+    "config/docker-compose.yml.template"
+    ".pre-commit-config.yaml.template"
+    ".cursorignore"
+)
+
+for file in "${CONFIG_FILES[@]}"; do
+    if [[ -f "$file" ]]; then
+        pass "$file exists"
+    else
+        fail "$file is missing"
+    fi
+done
+
+echo ""
+
+# --- Scripts Check ---
+echo "Checking scripts..."
+
+SCRIPT_FILES=(
+    "scripts/README.md"
+    "scripts/setup.sh"
+    "scripts/verify-env.sh"
+    "scripts/db-reset.sh"
+)
+
+for file in "${SCRIPT_FILES[@]}"; do
+    if [[ -f "$file" ]]; then
+        pass "$file exists"
+    else
+        fail "$file is missing"
+    fi
+done
+
+# Check scripts are executable
+for script in scripts/*.sh; do
+    [ -f "$script" ] || continue
+    if [[ -x "$script" ]]; then
+        pass "$script is executable"
+    else
+        warn "$script is not executable"
     fi
 done
 

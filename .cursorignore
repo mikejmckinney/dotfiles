@@ -1,0 +1,103 @@
+# Cursor Ignore File
+# Files and directories listed here are excluded from Cursor's context
+# This saves tokens and improves response quality by reducing noise
+#
+# Syntax: Same as .gitignore
+
+# ===========================================
+# Dependencies & Build Artifacts
+# ===========================================
+node_modules/
+.next/
+dist/
+build/
+out/
+.turbo/
+.vercel/
+.netlify/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.eggs/
+*.egg-info/
+
+# Rust
+target/
+
+# Go
+vendor/
+
+# ===========================================
+# Test & Coverage Reports
+# ===========================================
+coverage/
+.nyc_output/
+*.lcov
+htmlcov/
+.pytest_cache/
+.coverage
+
+# ===========================================
+# IDE & Editor Files
+# ===========================================
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ===========================================
+# Logs & Temporary Files
+# ===========================================
+*.log
+logs/
+tmp/
+temp/
+.cache/
+
+# ===========================================
+# Documentation Archives
+# ===========================================
+# Archived docs are for historical reference, not active development
+docs/archive/
+
+# ===========================================
+# Large Assets
+# ===========================================
+# Generated/binary assets that don't need AI analysis
+*.mp4
+*.mov
+*.avi
+*.mp3
+*.wav
+*.zip
+*.tar.gz
+*.rar
+
+# Large images (keep small reference images)
+# *.png
+# *.jpg
+# *.gif
+
+# ===========================================
+# Lock Files (context but not usually needed)
+# ===========================================
+# Uncomment if these are causing token bloat
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+# Cargo.lock
+# poetry.lock
+
+# ===========================================
+# Secrets & Environment Files
+# ===========================================
+# These should NEVER be in context
+.env
+.env.*
+*.pem
+*.key
+secrets/

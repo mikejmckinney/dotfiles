@@ -1,0 +1,279 @@
+# TEMPLATE_PLACEHOLDER: Customize for your project's build/test/lint commands
+#
+# Self-Healing CI Pipeline with Retry Budget
+# -------------------------------------------
+# This workflow runs on every push and PR. If tests fail:
+# 1. Error logs are captured and posted as a comment
+# 2. Agent should read logs and fix issues
+# 3. Maximum 3 attempts before hard-failing and tagging human
+#
+# The retry budget prevents infinite loops and runaway costs.
+# Customize the commands below for your tech stack.
+
+name: CI Tests
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+# Cancel in-progress runs for the same branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Maximum retry attempts before hard-failing
+  MAX_RETRIES: 3
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+      actions: read  # Required for gh run list (retry budget calculation)
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # =====================================================
+      # RETRY BUDGET TRACKING
+      # =====================================================
+      - name: Check retry count
+        id: retry_check
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Count recent failed runs for this workflow on this branch
+          RECENT_FAILURES=$(gh run list \
+            --workflow="CI Tests" \
+            --branch="${{ github.ref_name }}" \
+            --status=failure \
+            --limit=10 \
+            --json conclusion,createdAt \
+            --jq '[.[] | select(.createdAt > (now - 3600 | todate))] | length' \
+            2>/dev/null || echo "0")
+          
+          echo "Recent failures in last hour: $RECENT_FAILURES"
+          echo "failure_count=$RECENT_FAILURES" >> $GITHUB_OUTPUT
+          
+          if [[ "$RECENT_FAILURES" -ge "$MAX_RETRIES" ]]; then
+            echo "exceeded=true" >> $GITHUB_OUTPUT
+            echo "::warning::Retry budget exceeded ($RECENT_FAILURES failures in last hour)"
+          else
+            echo "exceeded=false" >> $GITHUB_OUTPUT
+          fi
+
+      # =====================================================
+      # CUSTOMIZE THIS SECTION FOR YOUR TECH STACK
+      # =====================================================
+      
+      # Node.js example:
+      # - name: Setup Node.js
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: '20'
+      #     cache: 'npm'
+      #
+      # - name: Install dependencies
+      #   run: npm ci
+      #
+      # - name: Run linter
+      #   run: npm run lint
+      #
+      # - name: Run type check
+      #   run: npm run typecheck
+      #
+      # - name: Run tests
+      #   id: tests
+      #   run: npm test 2>&1 | tee test-output.log
+      #   continue-on-error: true
+      #
+      # - name: Build
+      #   run: npm run build
+
+      # Python example:
+      # - name: Setup Python
+      #   uses: actions/setup-python@v5
+      #   with:
+      #     python-version: '3.11'
+      #     cache: 'pip'
+      #
+      # - name: Install dependencies
+      #   run: pip install -r requirements.txt
+      #
+      # - name: Run linter
+      #   run: ruff check .
+      #
+      # - name: Run type check
+      #   run: mypy .
+      #
+      # - name: Run tests
+      #   id: tests
+      #   run: pytest --cov 2>&1 | tee test-output.log
+      #   continue-on-error: true
+
+      # =====================================================
+      # PLACEHOLDER: Remove after customizing
+      # =====================================================
+      - name: Run tests (placeholder)
+        id: tests
+        run: |
+          echo "CI pipeline placeholder - customize for your project"
+          echo "See comments in this file for Node.js and Python examples"
+          
+          # Verify template files exist (useful for template repo itself)
+          if [ -f "./test.sh" ]; then
+            set -o pipefail
+            ./test.sh 2>&1 | tee test-output.log
+          else
+            echo "No test.sh found - add project-specific tests"
+          fi
+
+      # =====================================================
+      # FAILURE HANDLING
+      # =====================================================
+      - name: Capture failure logs
+        if: failure()
+        id: capture_logs
+        run: |
+          echo "## CI Failure Report" > failure-report.md
+          echo "" >> failure-report.md
+          echo "**Workflow:** ${{ github.workflow }}" >> failure-report.md
+          echo "**Run:** [#${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> failure-report.md
+          echo "**Branch:** ${{ github.ref_name }}" >> failure-report.md
+          echo "**Commit:** ${{ github.sha }}" >> failure-report.md
+          echo "**Retry Count:** ${{ steps.retry_check.outputs.failure_count }}/${{ env.MAX_RETRIES }}" >> failure-report.md
+          echo "" >> failure-report.md
+          echo "### Error Output" >> failure-report.md
+          echo '```' >> failure-report.md
+          if [[ -f "test-output.log" ]]; then
+            tail -100 test-output.log >> failure-report.md
+          else
+            echo "No test output captured" >> failure-report.md
+          fi
+          echo '```' >> failure-report.md
+
+      - name: Post failure comment on PR
+        if: failure() && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let body = '';
+            
+            try {
+              body = fs.readFileSync('failure-report.md', 'utf8');
+            } catch (e) {
+              body = '## CI Failure\n\nSee workflow logs for details.';
+            }
+            
+            // Add retry budget warning if applicable
+            const retryCount = parseInt('${{ steps.retry_check.outputs.failure_count }}') || 0;
+            const maxRetries = parseInt('${{ env.MAX_RETRIES }}');
+            
+            if (retryCount >= maxRetries - 1) {
+              body += '\n\n---\n';
+              body += '⚠️ **Warning:** Approaching retry budget limit. ';
+              body += 'If next attempt fails, human review will be required.';
+            }
+            
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: body
+            });
+
+      - name: Tag human on retry budget exceeded
+        if: failure() && steps.retry_check.outputs.exceeded == 'true'
+        uses: actions/github-script@v7
+        env:
+          MAX_RETRIES: ${{ env.MAX_RETRIES }}
+        with:
+          script: |
+            const title = '🚨 CI Retry Budget Exceeded';
+            const body = `The CI pipeline has failed ${process.env.MAX_RETRIES}+ times in the last hour.
+            
+            **Branch:** ${{ github.ref_name }}
+            **Last Run:** [#${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            
+            ## Action Required
+            
+            The automated retry budget has been exhausted. A human must:
+            1. Review the failure logs
+            2. Fix the underlying issue
+            3. Push a fix to resume CI
+            
+            This safeguard prevents infinite loops and runaway costs.
+            
+            ---
+            *This issue was created automatically by the CI pipeline.*`;
+            
+            // Check if issue already exists
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'ci-failure'
+            });
+            
+            const existingIssue = issues.data.find(i => i.title === title);
+            
+            if (existingIssue) {
+              // Add comment to existing issue
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existingIssue.number,
+                body: `Another failure at ${new Date().toISOString()}\n\n[View run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})`
+              });
+            } else {
+              // Create new issue (labels are optional - will be ignored if they don't exist)
+              try {
+                await github.rest.issues.create({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  title: title,
+                  body: body,
+                  labels: ['ci-failure', 'needs-human']
+                });
+              } catch (labelError) {
+                // Retry without labels if they don't exist
+                console.log('Labels not found, creating issue without labels');
+                await github.rest.issues.create({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  title: title,
+                  body: body
+                });
+              }
+            }
+            
+            // Hard fail
+            core.setFailed('Retry budget exceeded. Human intervention required.');
+
+  # Optional: Build job for compiled projects
+  # build:
+  #   runs-on: ubuntu-latest
+  #   needs: test
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Build
+  #       run: echo "Add build commands here"
+
+  # Optional: Deploy preview for PRs
+  # preview:
+  #   runs-on: ubuntu-latest
+  #   needs: build
+  #   if: github.event_name == 'pull_request'
+  #   steps:
+  #     - name: Deploy preview
+  #       run: echo "Add preview deployment here"
