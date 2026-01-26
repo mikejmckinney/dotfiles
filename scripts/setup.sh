@@ -127,7 +127,8 @@ log_info "No database configuration detected (customize setup.sh if needed)"
 # --- Step 4: Build (if applicable) ---
 log_step "Building project"
 
-if [[ -f "package.json" ]] && grep -q '"build"' package.json; then
+# Check specifically for scripts.build to avoid false positives
+if [[ -f "package.json" ]] && grep -q '"scripts"' package.json && grep -A20 '"scripts"' package.json | grep -q '"build"'; then
     log_info "Running build..."
     npm run build
     log_info "Build complete"

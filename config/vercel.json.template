@@ -30,7 +30,8 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://your-backend.onrender.com/api/:path*"
+      "_comment": "TEMPLATE_PLACEHOLDER: Update destination to your actual backend URL",
+      "destination": "https://PLEASE_UPDATE_THIS.onrender.com/api/:path*"
     }
   ],
   
@@ -46,5 +47,6 @@
     "NEXT_PUBLIC_API_URL": "@api_url"
   },
   
+  "_regionsComment": "TEMPLATE_PLACEHOLDER: Choose region closest to your users (iad1=Virginia, sfo1=San Francisco, etc.)",
   "regions": ["iad1"]
 }

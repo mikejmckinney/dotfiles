@@ -65,13 +65,14 @@ services:
   #   startCommand: npm run cron-job
 
 databases:
+  # TEMPLATE_PLACEHOLDER: Update database name and credentials
   - name: my-database
     plan: free  # or starter, standard, pro
     region: oregon
     
     # PostgreSQL version
-    databaseName: myapp
-    user: myapp_user
+    databaseName: myapp  # TEMPLATE_PLACEHOLDER: Update this
+    user: myapp_user     # TEMPLATE_PLACEHOLDER: Update this
     
     # Enable high availability (pro plans only)
     # highAvailability: true
@@ -80,10 +81,11 @@ databases:
     # pitr: true
 
 # Environment groups for shared env vars
+# TEMPLATE_PLACEHOLDER: Update these values for your project
 envVarGroups:
   - name: shared-settings
     envVars:
       - key: APP_NAME
-        value: my-app
+        value: my-app  # TEMPLATE_PLACEHOLDER: Update this
       - key: LOG_LEVEL
         value: info
