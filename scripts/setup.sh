@@ -155,7 +155,7 @@ if [[ -f "package.json" ]]; then
     # Fallback to grep if node failed or not available
     if [[ "$BUILD_EXISTS" != "true" ]]; then
         # Options before pattern for BSD grep compatibility
-        if grep -q '"scripts"' package.json && grep -A100 '"scripts"' package.json | grep -q '"build"'; then
+        if grep -q '"scripts"' package.json && grep -A100 '"scripts"' package.json | grep -q '^\s*"build":'; then
             BUILD_EXISTS="true"
         fi
     fi
