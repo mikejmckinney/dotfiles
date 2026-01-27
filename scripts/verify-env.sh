@@ -128,7 +128,8 @@ echo ""
 
 # --- Template Verification ---
 echo "Checking for template placeholders..."
-PLACEHOLDER_COUNT=$(grep -rl "TEMPLATE_PLACEHOLDER" . --exclude-dir={.git,node_modules,venv,.venv,__pycache__} 2>/dev/null | wc -l | tr -d ' ')
+# Use portable grep (--exclude-dir is GNU-only, not available on macOS)
+PLACEHOLDER_COUNT=$(grep -rl "TEMPLATE_PLACEHOLDER" . 2>/dev/null | grep -vE '/(\.git|node_modules|venv|\.venv|__pycache__)/' | wc -l | tr -d ' ')
 if [[ "$PLACEHOLDER_COUNT" -gt 0 ]]; then
     warn "$PLACEHOLDER_COUNT files still contain TEMPLATE_PLACEHOLDER"
 else

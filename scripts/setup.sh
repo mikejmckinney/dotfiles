@@ -38,10 +38,18 @@ if command -v git &> /dev/null && git rev-parse --is-inside-work-tree &> /dev/nu
         # Extract owner/repo from various URL formats
         # SSH: git@github.com:owner/repo.git
         # HTTPS: https://github.com/owner/repo.git
-        if [[ "$REMOTE_URL" =~ github\.com[:/]([^/]+)/([^/.]+)(\.git)?$ ]]; then
+        # Match repo names with dots (e.g., my.repo.name) - strip .git suffix separately
+        if [[ "$REMOTE_URL" =~ github\.com[:/]([^/]+)/(.+)$ ]]; then
             REPO_OWNER="${BASH_REMATCH[1]}"
             REPO_NAME="${BASH_REMATCH[2]}"
-            FULL_REPO="${REPO_OWNER}/${REPO_NAME}"
+            # Strip trailing .git if present
+            REPO_NAME="${REPO_NAME%.git}"
+            
+            # Sanitize variables to prevent command injection (security fix)
+            SAFE_OWNER=$(echo "$REPO_OWNER" | tr -cd '[:alnum:]-_.')
+            SAFE_NAME=$(echo "$REPO_NAME" | tr -cd '[:alnum:]-_.')
+            
+            FULL_REPO="${SAFE_OWNER}/${SAFE_NAME}"
             log_info "Detected repository: $FULL_REPO"
             
             # Update issue template config with correct discussions URL
@@ -49,10 +57,10 @@ if command -v git &> /dev/null && git rev-parse --is-inside-work-tree &> /dev/nu
             CONFIG_FILE=".github/ISSUE_TEMPLATE/config.yml"
             if [[ -f "$CONFIG_FILE" ]]; then
                 if grep -q "PLEASE_UPDATE_THIS/URL" "$CONFIG_FILE"; then
-                    sed "s|PLEASE_UPDATE_THIS/URL|${REPO_OWNER}/${REPO_NAME}|g" "$CONFIG_FILE" > "${CONFIG_FILE}.tmp" && mv "${CONFIG_FILE}.tmp" "$CONFIG_FILE"
+                    sed "s|PLEASE_UPDATE_THIS/URL|${SAFE_OWNER}/${SAFE_NAME}|g" "$CONFIG_FILE" > "${CONFIG_FILE}.tmp" && mv "${CONFIG_FILE}.tmp" "$CONFIG_FILE"
                     log_info "Updated $CONFIG_FILE with repository URL"
                 elif grep -q "YOUR_USERNAME/YOUR_REPOSITORY" "$CONFIG_FILE"; then
-                    sed "s|YOUR_USERNAME/YOUR_REPOSITORY|${REPO_OWNER}/${REPO_NAME}|g" "$CONFIG_FILE" > "${CONFIG_FILE}.tmp" && mv "${CONFIG_FILE}.tmp" "$CONFIG_FILE"
+                    sed "s|YOUR_USERNAME/YOUR_REPOSITORY|${SAFE_OWNER}/${SAFE_NAME}|g" "$CONFIG_FILE" > "${CONFIG_FILE}.tmp" && mv "${CONFIG_FILE}.tmp" "$CONFIG_FILE"
                     log_info "Updated $CONFIG_FILE with repository URL"
                 else
                     log_info "$CONFIG_FILE already configured"
@@ -128,7 +136,21 @@ log_info "No database configuration detected (customize setup.sh if needed)"
 log_step "Building project"
 
 # Check specifically for scripts.build to avoid false positives
-if [[ -f "package.json" ]] && grep -q '"scripts"' package.json && grep -A20 '"scripts"' package.json | grep -q '"build"'; then
+# Use node to properly parse JSON if available, otherwise fall back to grep
+BUILD_EXISTS=false
+if [[ -f "package.json" ]]; then
+    if command -v node &> /dev/null; then
+        # Use node to properly check for scripts.build
+        BUILD_EXISTS=$(node -e "console.log(!!require('./package.json').scripts?.build)" 2>/dev/null || echo "false")
+    else
+        # Fallback: grep for "build" within the scripts block (search full file)
+        if grep -q '"scripts"' package.json && grep '"scripts"' -A100 package.json | grep -q '"build"'; then
+            BUILD_EXISTS="true"
+        fi
+    fi
+fi
+
+if [[ "$BUILD_EXISTS" == "true" ]]; then
     log_info "Running build..."
     npm run build
     log_info "Build complete"

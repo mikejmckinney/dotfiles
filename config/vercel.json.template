@@ -31,7 +31,7 @@
     {
       "source": "/api/:path*",
       "_comment": "TEMPLATE_PLACEHOLDER: Update destination to your actual backend URL",
-      "destination": "https://PLEASE_UPDATE_THIS.onrender.com/api/:path*"
+      "destination": "https://YOUR_BACKEND_URL/api/:path*"
     }
   ],
   
